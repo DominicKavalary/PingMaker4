@@ -96,7 +96,7 @@ def targetFileSetup(ListOfTargets):
 
 ### Function to create and set up database
 def databaseSetup():
-  client = MongoClient(host="localhost", port=27017)
+  client = pymongo.MongoClient(host="localhost", port=27017)
   db = client["database"]
   collection = db["collection"]
   collection.create_index([("createdAt", 1)], expireAfterSeconds=604800)
@@ -141,7 +141,7 @@ def rotateLogs(tempFilePath, Target, timeSinceStart):
 ### Function to be threaded. This function handles the main process of pinging and storing file data
 def PingMaker(Target):
   # establish connection with DB
-  client = MongoClient(host="localhost", port=27017)
+  client = pymongo.MongoClient(host="localhost", port=27017)
   db = client["database"]
   collection = db["collection"]
   # grab the starting time of the function in seconds  This will be used to keep track of how long the function is running so we can do a time based log rotation
@@ -165,7 +165,7 @@ def PingMaker(Target):
       "packetLoss": pingArray[1],
       "responseTime": pingArray[2],
       "errorNote": pingArray[3],
-      "createdAt": datetime.now(timezone.utc)
+      "createdAt": datetime.datetime.now(timezone.utc)
     }
     collection.insert_one(data)
     # if there was an error note created, add to the count. , if a large amount has happened, make a note of it. if the name or service isnt known, assume its bad input and close the process so it doesnt take up cpu
