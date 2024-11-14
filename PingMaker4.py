@@ -113,7 +113,7 @@ def PingMaker(Target):
       "packetLoss": pingArray[1],
       "responseTime": pingArray[2],
       "errorNote": pingArray[3],
-      "createdAt": datetime.datetime.now(timezone.utc)
+      "createdAt": datetime.datetime.now(datetime.timezone.utc)
     }
     # insert data
     collection.insert_one(data)
