@@ -140,10 +140,7 @@ def rotateLogs(tempFilePath, Target, timeSinceStart):
 
 ### Function to be threaded. This function handles the main process of pinging and storing file data
 def PingMaker(Target):
-  # establish connection with DB
-  client = pymongo.MongoClient(host="localhost", port=27017)
-  db = client["database"]
-  collection = db["collection"]
+
   # grab the starting time of the function in seconds  This will be used to keep track of how long the function is running so we can do a time based log rotation
   #referenceStart = time.time()
   #timeSinceStart = time.strftime("%D:%H:%M")
@@ -159,6 +156,10 @@ def PingMaker(Target):
     # Write the data to the target file
     # with open(tempFilePath, "a") as tempFile:
       # tempFile.write("\n"+pingArray[0]+","+pingArray[1]+","+pingArray[2]+","+pingArray[3])
+      # establish connection with DB, write data, close connection
+    client = pymongo.MongoClient(host="localhost", port=27017)
+    db = client["database"]
+    collection = db["collection"]
     data = {
       "Target": Target,
       "timeOfPing": pingArray[0],
@@ -168,13 +169,14 @@ def PingMaker(Target):
       "createdAt": datetime.datetime.now(timezone.utc)
     }
     collection.insert_one(data)
+    client.close()
     # if there was an error note created, add to the count. , if a large amount has happened, make a note of it. if the name or service isnt known, assume its bad input and close the process so it doesnt take up cpu
     if "NA" not in pingArray[3]:
       errorCount += 1
       if "Name or service not known" in pingArray[3]:
         errWrite("Name or service not known for target: "+Target+", validate target format\nEnding thread for target "+Target+" under the assumption of an improper target")
         knownService = False
-        client.close()
+        
         fixInterrupted(tempFilePath, Target, "ERRORS")
       if errorCount == 750:
         errWrite("Excessive errors for: " + Target)
