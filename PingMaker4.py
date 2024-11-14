@@ -100,7 +100,7 @@ def databaseSetup():
   db = client["database"]
   collection = db["collection"]
   collection.create_index([("createdAt", 1)], expireAfterSeconds=604800)
-  client.close
+  client.close()
   
 ### Function to do a ping command, and return the output as an array of values. The array is: the time of ping, the packet loss, the response time, and any note outputted by the command#
 def getPingArray(Target):
