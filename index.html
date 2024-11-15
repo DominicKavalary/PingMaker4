@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PingMaker Results</title>
+</head>
+<body>
+<h1>Find 8.8.8.8</h1>
+<div id="output"></div>
+<script>
+// Use JavaScript to make an AJAX request to the PHP file
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+if (this.readyState == 4 && this.status == 200) {
+// Display the response in the 'output' div
+document.getElementById("output").innerHTML = this.responseText;
+}
+};
+xhttp.open("GET", "request.php", true);
+xhttp.send();
+</script>
+</body>
+</html>
