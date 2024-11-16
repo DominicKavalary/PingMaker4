@@ -69,6 +69,7 @@ def makeDirectories():
 def databaseSetup():
   client = pymongo.MongoClient(host="localhost", port=27017)
   db = client["database"]
+  collection = db["targets"]
   collection = db["collection"]
   collection.create_index([("createdAt", 1)], expireAfterSeconds=604800)
   client.close()
