@@ -1,18 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>messing around</title>
+</head>
+<body>
+    <h1>request.php</h1>
+    <form id="runRequest" action="request.php" method="POST">
+    Name: <input type="text" name="target"><br>
+    <input type="submit">
+    </form>
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
-//make connection and allow insecure connections because i dont understand certificates
-$client = new MongoDB\Client('mongodb://127.0.0.1:27017',['tls' => true, 'tlsInsecure' => true],);
-//select database
+// Include Composer autoload (make sure it's included to load the MongoDB library)
+require 'vendor/autoload.php'; // Path to Composer's autoload file
+
+// Create a new MongoDB client to connect to the MongoDB server
+$client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
+
 $database = $client->database;
 $collection = $database->collection;
-//get results, might need =>
-$results = $collection->find(['Target' == "8.8.8.8"]);
-foreach ($results as $doc) {
-    echo json_encode($doc), PHP_EOL;
+$Target = $_POST["target"];
+$Query = array('Target' => $Target);
+$result = $collection->find($Query);
+
+foreach ($result as $entry) {
+    echo json_encode($entry), PHP_EOL;
 }
-//get number of records
-$result = $collection->countDocuments(['Target' == "8.8.8.8"]);
-echo 'Number of results: ', $result;
 
 ?>
+</body>
+</html>
