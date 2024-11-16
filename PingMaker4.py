@@ -21,12 +21,12 @@ def errWrite(Message):
   with open("/home/PingMaker/errors/Errors.txt", "a") as errfile:
     errfile.write("\n"+Message)
 
-#### Function to do a quick address format validation on the targets in the target file. X.X.X.X and XXX.XXX(sorta) for ips and hostnames###
+#### Function to do a quick address format validation on the targets in the target file. X.X.X.X and XXX.XXX(sorta) for ips and hostnames####
 def testTargetRegex(Target):
   regex = r"^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
   if re.search(regex, Target):
     return True
-  else:
+  else:z
     regex = "[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]" + "{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"
     if re.search(regex,Target):
       return True
@@ -37,16 +37,20 @@ def testTargetRegex(Target):
 ### Function to get targets from target file. then parse through them and remove bad ones
 def getTargets():
 # Create empty list of targets, then go through the target file to find them
+  client = pymongo.MongoClient(host="localhost", port=27017)
+  db = client["database"]
+  collection = db["targets"]
   ListOfTargets = []
-  with open("/home/PingMaker/PingTargets.txt", "r") as targetFile:
-    for line in targetFile:
-      # If there is a /, it means there is a cidr address range. Get the addresses and add them all
-      if "/" in line:
-        usableSubnet = [str(ip) for ip in ipaddress.IPv4Network(line.replace("\n",""))]
-        for ip in usableSubnet[1:-1]:
-          ListOfTargets.append(str(ip))
-      # Otherwise, if there is no /, it means it is either an IP or a hostname.
-      else:
+  targetDocuments = collection.find({})
+  for document in targetDocuments:
+    START GRABBING VALUES FROM JSON DOCUMENT
+    # If there is a /, it means there is a cidr address range. Get the addresses and add them all
+    if "/" in line:
+      usableSubnet = [str(ip) for ip in ipaddress.IPv4Network(line.replace("\n",""))]
+      for ip in usableSubnet[1:-1]:
+        ListOfTargets.append(str(ip))
+    # Otherwise, if there is no /, it means it is either an IP or a hostname.
+    else:
         ListOfTargets.append(line.replace("\n",""))
   #Now, run Regex checks on every target in order to have a quick validation. This will not grab all of the bad ones, but it will do most. Later, we will have methods to kill processes if they end up being bad so that it doesnt waste cpu.
   ListOfBadTargets = []
