@@ -11,7 +11,8 @@
     
     <h1>Add Target</h1>
     <form id="runRequest" action="targets.php" method="POST">
-    Add Target: <input type="text" name="target"><br>
+    Target: <input type="text" name="target"><br>
+    Description: <input type="text" name="description"><br>
     <input type="submit">
     </form>
     <h1>Removing Target</h1>
@@ -31,13 +32,15 @@ $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your Mon
 $database = $client->database;
 $collection = $database->targets;
 $Target = $_POST["target"];
-
-$collection->insertOne(['Target' => $Target,]);
+$Description = $_POST["description"];
+$collection->insertOne(['Target' => $Target, 'Description' => $Description,]);
 
 $result = $collection->find();
 
 foreach ($result as $entry) {
     echo json_encode($entry['Target']), PHP_EOL;
+    echo ": ";
+    echo json_encode($entry['Description']), PHP_EOL;
     echo "<br>";
 }
 
