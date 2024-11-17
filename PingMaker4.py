@@ -34,34 +34,30 @@ def testTargetRegex(Target):
       errWrite("Regex test failed for: " + Target)
       return False
   
-### Function to get targets from target file. then parse through them and remove bad ones
+### Function to get targets from target file. then parse through them and remove bad ones. EVentually move the regex checking to the php file targets.php, eventually add a note variable to the target collection documents and add to that note if the regex failed or not so they can see it in the web table when i make that
 def getTargets():
-# Create empty list of targets, then go through the target file to find them
+# Set up database connection to grab targets
   client = pymongo.MongoClient(host="localhost", port=27017)
   db = client["database"]
   collection = db["targets"]
-  ListOfTargets = []
   targetDocuments = collection.find({})
+  client.close()
+# create empty list of targets
+  ListOfTargets = []
+  # for every document in the target collection, grab the target
   for document in targetDocuments:
-    START GRABBING VALUES FROM JSON DOCUMENT
-    # If there is a /, it means there is a cidr address range. Get the addresses and add them all
-    if "/" in line:
-      usableSubnet = [str(ip) for ip in ipaddress.IPv4Network(line.replace("\n",""))]
+    document = document.json()
+    Target = document['Target']
+    # If there is a /, it means there is a cidr address range. Get the addresses and add them all. EVENTUALLY set up a try catch for if they put in a valid range or not
+    if "/" in Target:
+      usableSubnet = [str(ip) for ip in ipaddress.IPv4Network(Target.replace("\n",""))]
       for ip in usableSubnet[1:-1]:
         ListOfTargets.append(str(ip))
     # Otherwise, if there is no /, it means it is either an IP or a hostname.
     else:
-        ListOfTargets.append(line.replace("\n",""))
-  #Now, run Regex checks on every target in order to have a quick validation. This will not grab all of the bad ones, but it will do most. Later, we will have methods to kill processes if they end up being bad so that it doesnt waste cpu.
-  ListOfBadTargets = []
-  for Target in ListOfTargets:
-    # if they pass the initial tests, create their directories
-    if not testTargetRegex(Target):
-      ListOfBadTargets.append(Target)
-  # now remove every bad target from our list
-  for Target in ListOfBadTargets:
-    ListOfTargets.remove(Target)
-  ## Return the list of targets
+        #Now, run Regex checks on every target in order to have a quick validation. This will not grab all of the bad ones, but it will do most. Later, we will have methods to kill processes if they end up being bad so that it doesnt waste cpu.
+      if testTargetRegex(Target):
+        ListOfTargets.append(Target.replace("\n",""))
   return ListOfTargets
 
 ### Function to create needed directories and error file for code to work
@@ -139,12 +135,15 @@ def PingMaker(Target):
 ########    ----   MAIN     ----    ####### MAYBE DO THE IF MAIN THING#
 # sets up needed directories
 makeDirectories()
+# sets up mongodb database with required database name, collection names, and ttl to do record rotation
+databaseSetup()
 # Get list of targets
 ListOfTargets = getTargets()
-# sets up mongodb database with required database name, collection name, and ttl to do record rotation
-databaseSetup()
 # Start a thread per target. Each thread will ping the target and log to their own files. spreads the starting of threads by waiting fractions of a second so that the pings dont all happen liek once like a firing squad and mess up the cpu
 for Target in ListOfTargets:
   PingThread = threading.Thread(target=PingMaker, args=(Target,))
   PingThread.start()
   time.sleep(random.random()/3)
+
+
+##### make a loop with a time wait of 5 minutes, compare current list of targets to the past list of targets. if the list is different find which ones have been removed or added, then kill or start those processes
