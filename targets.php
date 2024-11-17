@@ -7,8 +7,13 @@
     <title>messing around</title>
 </head>
 <body>
-    <h1>targets.php</h1>
+    <h1>Add Target</h1>
     <form id="runRequest" action="targets.php" method="POST">
+    Add Target: <input type="text" name="target"><br>
+    <input type="submit">
+    </form>
+    <h1>Removing Target</h1>
+    <form id="runRequest" action="remtargets.php" method="POST">
     Add Target: <input type="text" name="target"><br>
     <input type="submit">
     </form>
