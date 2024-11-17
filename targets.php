@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>messing around</title>
+    <a href="request.html">requests</a>
+    <a href="targets.html">targets</a>
 </head>
 <body>
+    
     <h1>Add Target</h1>
     <form id="runRequest" action="targets.php" method="POST">
     Add Target: <input type="text" name="target"><br>
