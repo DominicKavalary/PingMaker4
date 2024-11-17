@@ -28,15 +28,24 @@ require 'vendor/autoload.php'; // Path to Composer's autoload file
 
 // Create a new MongoDB client to connect to the MongoDB server
 $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
-
 $database = $client->database;
 $collection = $database->targets;
 $Target = $_POST["target"];
 $Description = $_POST["description"];
-$collection->insertOne(['Target' => $Target, 'Description' => $Description,]);
 
+// See if the target already exists in the database, if it does, dont add it again
+$result = $collection->find(['Target' => $Target]);
+foreach ($result as $entry) {
+    if ($entry['Target'] == $Target){
+        echo "Target already exists in database";
+    }
+    else {
+        $collection->insertOne(['Target' => $Target, 'Description' => $Description,]);
+    }
+}
+// regardless of what happended before, print the current tarets in the database
+// also try and remember what the json encoding is for
 $result = $collection->find();
-
 foreach ($result as $entry) {
     echo json_encode($entry['Target']), PHP_EOL;
     echo ": ";
