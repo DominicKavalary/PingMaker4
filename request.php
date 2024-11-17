@@ -28,7 +28,7 @@ $Query = array('Target' => $Target);
 $result = $collection->find($Query);
 
 echo "<h2>$Target<h3><br>";
-<div style='height:500px; width:600px; overflow: auto;'>
+echo "<div style='height:500px; width:600px; overflow: auto;'><br>";
 foreach ($result as $entry) {
     echo "Time of Ping: ";
     echo json_encode($entry['timeOfPing']), PHP_EOL;
@@ -40,7 +40,7 @@ foreach ($result as $entry) {
     echo json_encode($entry['errorNote']), PHP_EOL;
     echo "<br>";
 }
-</div>
+echo "</div>";
 
 ?>
 </body>
