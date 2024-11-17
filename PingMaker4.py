@@ -132,6 +132,12 @@ def PingMaker(Target):
     #tell the program to wait a second. this is because a succesfull ping will generally happen pretty quick, and errors depending on which kind can show up immediatly. so this will limit the pings/errors to about one every one or two seconds. 
     time.sleep(1)
 
+# Functiont to compare old list of targets and new list of targets
+def compareTargets(oldTargets, newTargets):
+  new_set = set(newTargets)
+  old_set = set(oldTargets)
+  return new_set - old_set, old_set - new_set
+
 ########    ----   MAIN     ----    ####### MAYBE DO THE IF MAIN THING#
 # sets up needed directories
 makeDirectories()
@@ -145,5 +151,15 @@ for Target in ListOfTargets:
   PingThread.start()
   time.sleep(random.random()/3)
 
-
-##### make a loop with a time wait of 5 minutes, compare current list of targets to the past list of targets. if the list is different find which ones have been removed or added, then kill or start those processes
+# now check forever every 5 minutes wether the target collection has changed or not. if it has, you know a target has been removed or added
+while 1 == 1:
+  time.sleep(300)
+  newTargets = getTargets()
+  if ListOfTargets != newTargets:
+    added, removed = compareTargets(ListOfTargets, newTargets)
+    for Target in added:
+      PingThread = threading.Thread(target=PingMaker, args=(Target,))
+      PingThread.start()
+      time.sleep(random.random()/3)
+    ListOfTargets = newTargets
+##### remove removed targets, still need that.
