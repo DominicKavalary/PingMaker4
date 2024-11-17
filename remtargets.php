@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <a href="request.html">requests</a>
+    <a href="targets.html">targets</a>
     <title>messing around</title>
 </head>
 <body>
