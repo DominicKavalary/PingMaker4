@@ -23,7 +23,7 @@ $database = $client->database;
 $collection = $database->targets;
 $Target = $_POST["target"];
 
-$collection->insertOne(['Target' => $Target,])
+$collection->insertOne(['Target' => $Target,]);
 
 $result = $collection->find();
 
