@@ -10,7 +10,16 @@ import random
 import pymongo
 import datetime
 
-#### Function to turn cli output into an array, each line being an item in the array###
+### "Global" list of targets removed, processes will periodically check to see if their target is in this list, if it is, they will end their processes.  ###
+removedTargets = []
+
+### Functiont to compare old list of targets and new list of targets and return targets that have been added or removed
+def compareTargets(oldTargets, newTargets):
+  new_set = set(newTargets)
+  old_set = set(oldTargets)
+  return new_set - old_set, old_set - new_set
+  
+### Function to turn cli output into an array, each line being an item in the array###
 def getOutput(Command):
   output = subprocess.getoutput(Command)
   output = output.splitlines()
@@ -99,8 +108,8 @@ def PingMaker(Target):
   # Error Count, this is to count total errors, if total errors of a certain kind happen often, it will close the thread because it will nto ever succede
   errorCount = 0
   # Setting up the while statement to always run and continuously try pinging, otherwise if the event happens it will break the loop#
-  knownService = True
-  while knownService:
+  keepProcessRunning = True
+  while keepProcessRunning:
     # Grab the info from a the ping output function
     pingArray = getPingArray(Target)
     # establish connection with DB
@@ -125,18 +134,17 @@ def PingMaker(Target):
       errorCount += 1
       if "Name or service not known" in pingArray[3]:
         errWrite("Name or service not known for target: "+Target+", validate target format\nEnding thread for target "+Target+" under the assumption of an improper target")
-        knownService = False
+        keepProcessRunning = False
       if errorCount == 750:
         errWrite("Excessive errors for: " + Target)
         errorCount = 0
-    #tell the program to wait a second. this is because a succesfull ping will generally happen pretty quick, and errors depending on which kind can show up immediatly. so this will limit the pings/errors to about one every one or two seconds. 
+    # check if its in the list of removed targets, if it is, set the keepprocessrunning flag to false and remove the target from that list
+    if Target in removedTargets:
+      keepProcessRunning = False
+      removedTargets.remove(Target)
+    # tell the program to wait a second. this is because a succesfull ping will generally happen pretty quick, and errors depending on which kind can show up immediatly. so this will limit the pings/errors to about one every one or two seconds. 
     time.sleep(1)
 
-# Functiont to compare old list of targets and new list of targets
-def compareTargets(oldTargets, newTargets):
-  new_set = set(newTargets)
-  old_set = set(oldTargets)
-  return new_set - old_set, old_set - new_set
 
 ########    ----   MAIN     ----    ####### MAYBE DO THE IF MAIN THING#
 # sets up needed directories
@@ -157,9 +165,15 @@ while 1 == 1:
   newTargets = getTargets()
   if ListOfTargets != newTargets:
     added, removed = compareTargets(ListOfTargets, newTargets)
-    for Target in added:
-      PingThread = threading.Thread(target=PingMaker, args=(Target,))
-      PingThread.start()
-      time.sleep(random.random()/3)
+    # if length of added is 1 or more, start the process for everything in added
+    if len(added) >=1:
+      for Target in added:
+        PingThread = threading.Thread(target=PingMaker, args=(Target,))
+        PingThread.start()
+        time.sleep(random.random()/3)
+    # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
+    if len(removed) >=1:
+      for Target in removed:
+        removedTargets.append(Target)
     ListOfTargets = newTargets
 ##### remove removed targets, still need that.
