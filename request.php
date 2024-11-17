@@ -27,8 +27,17 @@ $Target = $_POST["target"];
 $Query = array('Target' => $Target);
 $result = $collection->find($Query);
 
+echo "<h2>$Target<h3><br>";
 foreach ($result as $entry) {
-    echo json_encode($entry), PHP_EOL;
+    echo "Time of Ping: ";
+    echo json_encode($entry['timeOfPing']), PHP_EOL;
+    echo "Packet Loss: ";
+    echo json_encode($entry['packetLoss']), PHP_EOL;
+    echo "responseTime: ";
+    echo json_encode($entry['responseTime']), PHP_EOL;
+    echo "errorNote: ";
+    echo json_encode($entry['errorNote']), PHP_EOL;
+    echo "<br>";
 }
 
 ?>
