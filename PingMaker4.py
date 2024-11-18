@@ -55,7 +55,6 @@ def getTargets():
   ListOfTargets = []
   # for every document in the target collection, grab the target
   for document in targetDocuments:
-    document = document.json()
     Target = document['Target']
     # If there is a /, it means there is a cidr address range. Get the addresses and add them all. EVENTUALLY set up a try catch for if they put in a valid range or not
     if "/" in Target:
