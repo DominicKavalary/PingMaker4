@@ -56,16 +56,9 @@ def getTargets():
   # for every document in the target collection, grab the target
   for document in targetDocuments:
     Target = document['Target']
-    # If there is a /, it means there is a cidr address range. Get the addresses and add them all. EVENTUALLY set up a try catch for if they put in a valid range or not
-    if "/" in Target:
-      usableSubnet = [str(ip) for ip in ipaddress.IPv4Network(Target.replace("\n",""))]
-      for ip in usableSubnet[1:-1]:
-        ListOfTargets.append(str(ip))
-    # Otherwise, if there is no /, it means it is either an IP or a hostname.
-    else:
-        #Now, run Regex checks on every target in order to have a quick validation. This will not grab all of the bad ones, but it will do most. Later, we will have methods to kill processes if they end up being bad so that it doesnt waste cpu.
-      if testTargetRegex(Target):
-        ListOfTargets.append(Target.replace("\n",""))
+    #Now, run Regex checks on every target in order to have a quick validation. This will not grab all of the bad ones, but it will do most. Later, we will have methods to kill processes if they end up being bad so that it doesnt waste cpu.
+    if testTargetRegex(Target):
+      ListOfTargets.append(Target)
   return ListOfTargets
 
 ### Function to create needed directories and error file for code to work
