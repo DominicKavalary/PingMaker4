@@ -3,7 +3,7 @@ pingmaker3 but attempted to add database stuff and maybe web stuff
 
 
 ## PingMaker Monitoring Script Setup
-# Ubuntu Server (Tested on Noble)
+### Ubuntu Server (Tested on Noble)
 - sudo su
 - mkdir /home/PingMaker
 - cd /home/PingMaker
@@ -14,7 +14,7 @@ pingmaker3 but attempted to add database stuff and maybe web stuff
 - systemctl daemon-reload
 
 ## MongoDB Installation For Monitoring Database
-# Ubuntu Server (Tested on Noble)
+### Ubuntu Server (Tested on Noble)
 
 
 
