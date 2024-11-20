@@ -53,7 +53,7 @@ https://www.mongodb.com/resources/languages/mean-stack-tutorial
 - npm init -y
 - touch tsconfig.json .env
 GET READY TO CHANGE THE BELOW NAMES TO FIT YOUR STUFF
-- cd src && touch database.ts employee.routes.ts target.ts server.ts
+- cd src && touch database.ts target.routes.ts target.ts server.ts
 - cd ..
 - npm install cors dotenv express mongodb
 SOMETHING ABOUT NOT HAVING THESE IN FULL PRODUCTION
@@ -141,6 +141,51 @@ async function applySchemaValidation(db: mongodb.Db) {
     });
 }
 '''
+- nano .env
+Paste:  FOR NOW UNTIL I CAN FIGURE OUT DATABASE PASSWORD SECURITY
+'''
+MONGO_URI=mongodb://localhost:27017
+'''
+- nano src/server.ts
+paste:
+'''
+import * as dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import { connectToDatabase } from "./database";
+
+// Load environment variables from the .env file, where the MONGO_URI is configured
+dotenv.config();
+
+const { MONGO_URI } = process.env;
+
+if (!MONGO_URI) {
+  console.error(
+    "No MONGO_URI environment variable has been defined in config.env"
+  );
+  process.exit(1);
+}
+
+connectToDatabase(MONGO_URI)
+  .then(() => {
+    const app = express();
+    app.use(cors());
+
+    // start the Express server
+    app.listen(5200, () => {
+      console.log(`Server running at http://localhost:5200...`);
+    });
+  })
+  .catch((error) => console.error(error));
+'''
+- do this command and you should see a server running output "npx ts-node src/server.ts"
+ctl z and bg it
+- nano src/target.routes.ts
+
+
+
+
+
 
 # TODO
 - css
