@@ -40,6 +40,107 @@ session required pam_limits.so
 - systemctl daemon-reload
 - systemctl start PingMaker.service
 
+## MEAN Stack Setup
+### Ubuntu Server (Tested on Noble)
+We will be largely following a tutorial made by mongodb on hwo to create a MEAN stack, except modifying it to fit our databases needs
+https://www.mongodb.com/resources/languages/mean-stack-tutorial
+
+- apt install npm
+- mkdir /home/PingMaker/MEAN_Stack
+- cd /home/PingMaker/MEAN_Stack
+- mkdir server && mkdir server/src
+- cd server
+- npm init -y
+- touch tsconfig.json .env
+GET READY TO CHANGE THE BELOW NAMES TO FIT YOUR STUFF
+- cd src && touch database.ts employee.routes.ts target.ts server.ts
+- cd ..
+- npm install cors dotenv express mongodb
+SOMETHING ABOUT NOT HAVING THESE IN FULL PRODUCTION
+- npm install --save-dev typescript @types/cors @types/express @types/node ts-node
+- nano tsconfig.json
+Paste:
+'''
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "esModuleInterop": true,  
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,    
+    "skipLibCheck": true,
+    "outDir": "./dist"
+  }
+}
+'''
+- nano src/target.ts
+Paste:
+'''
+import * as mongodb from "mongodb";
+
+export interface Target {
+    Target: string;
+    Description: string;
+}
+'''
+
+- nano src/database.ts
+Paste:
+'''
+import * as mongodb from "mongodb";
+import { Target } from "./target";
+
+export const collections: {
+    targets?: mongodb.Collection<Target>;
+} = {};
+
+export async function connectToDatabase(uri: string) {
+    const client = new mongodb.MongoClient(uri);
+    await client.connect();
+
+    const db = client.db("database");
+    await applySchemaValidation(db);
+
+    const targetsCollection = db.collection<Target>("targets");
+    collections.targets = targetsCollection;
+}
+
+// Update our existing collection with JSON schema validation so we know our documents will always match the shape of our Employee model, even if added elsewhere.
+// For more information about schema validation, see this blog series: https://www.mongodb.com/blog/post/json-schema-validation--locking-down-your-model-the-smart-way
+async function applySchemaValidation(db: mongodb.Db) {
+    const jsonSchema = {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["Target", "Description"],
+            additionalProperties: false,
+            properties: {
+                _id: {},
+                Target: {
+                    bsonType: "string",
+                    description: "'Target' is required and is a string in the form of a hostname or ipv4 address",
+                },
+                Description: {
+                    bsonType: "string",
+                    description: "'Description' is required and is a string",
+                    minLength: 5
+                },
+                
+            },
+        },
+    };
+
+    // Try applying the modification to the collection, if the collection doesn't exist, create it
+   await db.command({
+        collMod: "targets",
+        validator: jsonSchema
+    }).catch(async (error: mongodb.MongoServerError) => {
+        if (error.codeName === "NamespaceNotFound") {
+            await db.createCollection("targets", {validator: jsonSchema});
+        }
+    });
+}
+'''
 
 # TODO
 - css
