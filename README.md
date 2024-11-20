@@ -181,10 +181,106 @@ connectToDatabase(MONGO_URI)
 - do this command and you should see a server running output "npx ts-node src/server.ts"
 ctl z and bg it
 - nano src/target.routes.ts
+Paste
+'''
+import * as express from "express";
+import { ObjectId } from "mongodb";
+import { collections } from "./database";
 
+export const targetRouter = express.Router();
+targetRouter.use(express.json());
 
+targetRouter.get("/", async (_req, res) => {
+    try {
+        const targets = await collections?.targets?.find({}).toArray();
+        res.status(200).send(targets);
+    } catch (error) {
+        res.status(500).send(error instanceof Error ? error.message : "Unknown error");
+    }
+});
 
+targetRouter.get("/:Target", async (req, res) => {
+    try {
+        const targetID = req?.params?.Target;
+        const query = { Target: targetID };
+        const Target = await collections?.targets?.findOne(query);
 
+        if (Target) {
+            res.status(200).send(Target);
+        } else {
+            res.status(404).send(`Failed to find a Target: ${targetID}`);
+        }
+    } catch (error) {
+        res.status(404).send(`Failed to find a Target: ${req?.params?.Target}`);
+    }
+});
+
+targetRouter.post("/", async (req, res) => {
+    try {
+        const target = req.body;
+        const result = await collections?.targets?.insertOne(target);
+
+        if (result?.acknowledged) {
+            res.status(201).send(`Created a new target: targetID ${result.insertedId}.`);
+        } else {
+            res.status(500).send("Failed to create a new target.");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(400).send(error instanceof Error ? error.message : "Unknown error");
+    }
+});
+
+targetRouter.put("/:Target", async (req, res) => {
+    try {
+        const targetid = req?.params?.Target;
+        const Target = req.body;
+        const query = { Target: targetid };
+        const result = await collections?.targets?.updateOne(query, { $set: Target });
+
+        if (result && result.matchedCount) {
+            res.status(200).send(`Updated a target: ID ${targetid}.`);
+        } else if (!result?.matchedCount) {
+            res.status(404).send(`Failed to find target: ID ${targetid}`);
+        } else {
+            res.status(304).send(`Failed to update target: ID ${targetid}`);
+        }
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error";
+        console.error(message);
+        res.status(400).send(message);
+    }
+});
+
+targetRouter.delete("/:Target", async (req, res) => {
+    try {
+        const targetid = req?.params?.Target;
+        const query = { Target: targetid };
+        const result = await collections?.targets?.deleteOne(query);
+
+        if (result && result.deletedCount) {
+            res.status(202).send(`Removed an employee: ID ${targetid}`);
+        } else if (!result) {
+            res.status(400).send(`Failed to remove an employee: ID ${targetid}`);
+        } else if (!result.deletedCount) {
+            res.status(404).send(`Failed to find an employee: ID ${targetid}`);
+        }
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error";
+        console.error(message);
+        res.status(400).send(message);
+    }
+});
+'''
+- nano /src/server.ts
+Paste this at the very begenning of file
+'''
+import { targetRouter } from "./target.routes";
+'''
+paste this before app.listen()
+'''
+app.use("/targets", targetRouter);
+'''
 
 
 # TODO
