@@ -160,12 +160,13 @@ while 1 == 1:
     # if length of added is 1 or more, start the process for everything in added
     if len(added) >=1:
       for Target in added:
-        PingThread = threading.Thread(target=PingMaker, args=(Target,))
-        PingThread.start()
-        time.sleep(random.random()/3)
+        if testTargetRegex(Target):
+          PingThread = threading.Thread(target=PingMaker, args=(Target,))
+          PingThread.start()
+          time.sleep(random.random()/3)
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
       for Target in removed:
         removedTargets.append(Target)
     ListOfTargets = newTargets
-##### remove removed targets, still need that.
+
