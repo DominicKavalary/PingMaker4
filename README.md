@@ -46,3 +46,5 @@ Todo:
 security logins
 css
 javascript?
+check if target exists before attempting to delete
+make targets.html php and just list targets at end with no functions
