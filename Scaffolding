@@ -51,6 +51,8 @@ echo "<br>";
 echo "<h1>Current Targets</h1>";
 foreach ($result as $entry) {
     echo json_encode($entry['Target']), PHP_EOL;
+    echo ": ";
+    echo json_encode($entry['Description']), PHP_EOL;
     echo "<br>";
 }
 
