@@ -1,0 +1,13 @@
+#topnavbar{
+    position: fixed;
+    background-color: black;
+    color: white;
+    padding: 0;
+    letter-spacing: 2px;
+    font-size: 0;
+    top: 50px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: auto;
+    scrollbar-width: none;
+}
