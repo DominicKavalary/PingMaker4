@@ -33,13 +33,14 @@ require 'vendor/autoload.php'; // Path to Composer's autoload file
 
 // Create a new MongoDB client to connect to the MongoDB server
 $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
-
-// Function Base
 $database = $client->database;
 $collection = $database->targets;
+
+// Get variables, some may have Target some may have description, remove only has target
 $Target = $_POST["target"];
+$Description = $_POST["description"];
 //Check if the target is null, if it is, dont do anything
-if is_null($Target){
+if (!empty($Target)){
 //Function
             ADD FUNCTION HERE, delete add or update
     }
