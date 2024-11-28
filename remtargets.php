@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="src/style.css">
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="request.php">Requests</a></li>
+      <li><a href="request.html">Requests</a></li>
       <li><a href="targets.index">Targets</a></li>
     </ul>
   </head>
