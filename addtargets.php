@@ -14,13 +14,13 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="request.php">Requests</a></li>
-      <li><a href="targets.php">Targets</a></li>
+      <li><a href="targets.html">Targets</a></li>
     </ul>
   </head>
 <body>
     <h1>Database Functions</h1>
     <h2>Add Target</h2>
-    <form id="runRequest" action="targets.php" method="POST">
+    <form id="runRequest" action="addtargets.php" method="POST">
     Add Target: <input type="text" name="target"><br>
     <input type="submit">
     </form>
