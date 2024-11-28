@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <a href="request.html">requests</a>
-    <a href="targets.html">targets</a>
-    <title>messing around</title>
-</head>
+  <head>
+    <title>PingMaker</title>
+    <link rel="stylesheet" href="src/style.css">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="request.php">Requests</a></li>
+      <li><a href="targets.php">Targets</a></li>
+    </ul>
+  </head>
 <body>
-    <h1>Add Target</h1>
+    <h1>Database Functions</h1>
+    <h2>Add Target</h2>
     <form id="runRequest" action="targets.php" method="POST">
     Add Target: <input type="text" name="target"><br>
     <input type="submit">
     </form>
-    <h1>Removing Target</h1>
+    <h2>Removing Target</h2>
     <form id="runRequest" action="remtargets.php" method="POST">
     Add Target: <input type="text" name="target"><br>
     <input type="submit">
     </form>
-
+    <h2>Update Target Description</h2>
+    <form id="runRequest" action="updatetargets.php" method="POST">
+    Add Target: <input type="text" name="target"><br>
+    <input type="submit">
+    </form>
 <?php
 
 // Include Composer autoload (make sure it's included to load the MongoDB library)
@@ -27,14 +34,20 @@ require 'vendor/autoload.php'; // Path to Composer's autoload file
 // Create a new MongoDB client to connect to the MongoDB server
 $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
 
+// Function Base
 $database = $client->database;
 $collection = $database->targets;
 $Target = $_POST["target"];
+//Check if the target is null, if it is, dont do anything
+if is_null($Target){
+//Function
+    $collection->deleteOne(['Target' => $Target,]);
+    }
 
-$collection->deleteOne(['Target' => $Target,]);
-
+// Get list of current targets and print
 $result = $collection->find();
-
+echo "<br>";
+echo "<h1>Current Targets</h1>";
 foreach ($result as $entry) {
     echo json_encode($entry['Target']), PHP_EOL;
     echo "<br>";
