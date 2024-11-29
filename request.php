@@ -23,7 +23,7 @@ require 'vendor/autoload.php'; // Path to Composer's autoload file
 // Create a new MongoDB client to connect to the MongoDB server
 $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
 $database = $client->database;
-$collection = $database->targets;
+$collection = $database->collection;
 
 // Get variables, some may have Target some may have description, remove only has target
 $Target = $_POST["target"];
