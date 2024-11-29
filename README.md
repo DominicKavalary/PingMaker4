@@ -36,7 +36,7 @@ session required pam_limits.so
 - sudo su
 - mkdir /home/PingMaker
 - cd /home/PingMaker
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingMaker.py
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingMaker4.py
 - nano /etc/systemd/system/PingMaker.service
   Copy paste the contents of the PingMaker.service file in the repository
 - systemctl enable PingMaker.service
