@@ -33,7 +33,14 @@ session required pam_limits.so
 - sudo pecl install mongodb
 -  - do all default options when they appear by just clicking enter
 - locate your php ini file using the command "php --ini" it is labeled as loaded configuration file
-- edit that file and add the line "extension=mongodb.so"
+- - edit that file and add the line "extension=mongodb.so"
+- sudo apt install libapache2-mod-php8.3
+- nano /etc/php/8.3/apache2/php.ini
+- - edit that file and add the line "extension=mongodb.so"
+  - unsure but do not do these later to test if unecesary
+- sudo apt install composer
+- composer require mongodb/mongodb
+- 
 
 ## PingMaker Monitoring Script Setup
 ### Ubuntu Server (Tested on Noble)
