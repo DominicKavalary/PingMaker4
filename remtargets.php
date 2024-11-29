@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>PingMaker</title>
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="style.css">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="request.html">Requests</a></li>
