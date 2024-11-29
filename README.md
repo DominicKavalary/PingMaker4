@@ -38,7 +38,8 @@ session required pam_limits.so
 - cd /home/PingMaker
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingMaker4.py
 - nano /etc/systemd/system/PingMaker.service
-  Copy paste the contents of the PingMaker.service file in the repository
+- - Copy paste the contents of the PingMaker.service file in the repository
+- apt install python3-pymongo
 - systemctl enable PingMaker.service
 - systemctl daemon-reload
 - systemctl start PingMaker.service
