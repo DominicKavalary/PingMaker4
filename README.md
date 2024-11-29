@@ -27,6 +27,9 @@ sudo sysctl -p
 sudo nano /etc/pam.d/common-session
 session required pam_limits.so
 
+## MongoDB PHP Setup
+### Ubuntu Server (Tested on Noble)
+- 
 
 ## PingMaker Monitoring Script Setup
 ### Ubuntu Server (Tested on Noble)
@@ -40,9 +43,28 @@ session required pam_limits.so
 - systemctl daemon-reload
 - systemctl start PingMaker.service
 
-## mean stack was too much effort, 
+## Apache2 Install And Front End Setup
+### Ubuntu Server (Tested on Noble)
+- sudo apt update
+- sudo apt install apache2
+Test if you can rach apache server with address of ubuntu server
+- rm /var/www/html/index.html
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/index.html -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/targets.html -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/requests.html -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/style.css -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.php -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/remtargets.php -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/addtargets.php -P /var/www/html/
 
-Todo:
+
+
+
+
+
+
+
+# Todo:
 security logins
 css
 javascript?
