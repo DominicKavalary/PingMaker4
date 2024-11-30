@@ -39,3 +39,11 @@ th {
   padding: 10px;
   border: 1px solid grey;
 }
+
+body {
+  background-color: lightgrey;
+}
+
+tr:nth-child(even) {
+            background-color: white;
+        }
