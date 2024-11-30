@@ -27,6 +27,8 @@ li a:hover {
   background-color: grey;
 }
 
-.active {
-  background-color: white;
+table, th, td {
+  border: 1px solid;
+  border-collapse:collapse;
+  text-align:center;
 }
