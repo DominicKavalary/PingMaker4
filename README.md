@@ -82,3 +82,4 @@ css
 make target request page use a dropdown of available targets with description
 check if target exists before attempting to delete
 make targets.html php and just list targets at end with no functions
+get a way of downloading csv file from the html tables
