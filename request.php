@@ -84,8 +84,8 @@ $result = $collection->find($Query);
 if (!empty($Target)){
 //Function
     //set up table
-    echo "<h1>$Target</h1><br>";  
-    echo "<div style='height:500px; width:600px; overflow: auto;'><br>";
+    echo "<h1>$Target</h1>";  
+    echo "<div style='height:500px; width:600px; overflow: auto;'>";
     echo "<table>";
     echo "<tr>";
     echo "<th>Time Of Ping</th>";
@@ -97,18 +97,19 @@ if (!empty($Target)){
     foreach ($result as $entry) {
         echo "<tr>";
         echo "<td>";
-        echo json_encode($entry['timeOfPing']), PHP_EOL;
+        echo json_encode($entry['timeOfPing']);
         echo "</td>";
         echo "<td>";
-        echo json_encode($entry['packetLoss']), PHP_EOL;
+        echo json_encode($entry['packetLoss']);
         echo "</td>";
         echo "<td>";
-        echo json_encode($entry['responseTime']), PHP_EOL;
+        echo json_encode($entry['responseTime']);
         echo "</td>";
         echo "<td>";
-        echo json_encode($entry['errorNote']), PHP_EOL;
+        echo json_encode($entry['errorNote']);
         echo "</td>";
         echo "</tr>";
+        echo PHP_EOL;
     }
     echo "</table>";
     echo "</div>";
