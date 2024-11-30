@@ -79,6 +79,6 @@ Test if you can rach apache server with address of ubuntu server
 # Todo:
 security logins
 css
-javascript?
+make target request page use a dropdown of available targets with description
 check if target exists before attempting to delete
 make targets.html php and just list targets at end with no functions
