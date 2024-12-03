@@ -69,9 +69,19 @@ Test if you can rach apache server with address of ubuntu server
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/remtargets.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/addtargets.php -P /var/www/html/
 
+## Things of note
+- Depending on the amount of targets, and how long you want to keep data for, you want you may need to increase:
+-   Disk Size
+-   Memory
+-   CPU
+You can change the retention time in the python script when it innitialized some database stuff. The time is in seconds I beleive. You can also change hwo quickly this software pings by also changing the value in the python script. EXCEPT NOT FOR LONG I JUST HAD A GREAT IDEA. Gonna make it so when you add targets you also select the delay of pings in seconds and then the python script can get that information when the target pinging process is created.
 
+Generally, 1 target being pinged every 5 seconds for a day will take up
+- UNKNOWN AMOUNT OF CPU
+- UNKNOWN GB MEMORY
+- UNKNOWN GB STORAGE
 
-
+Use these semi accurate kinda metrics to calculate your needs. If you ping every second multiply by roughly 5 i think
 
 
 
@@ -83,3 +93,5 @@ make target request page use a dropdown of available targets with description
 check if target exists before attempting to delete
 make targets.html php and just list targets at end with no functions
 get a way of downloading csv file from the html tables
+- CHANGE THIS to use php and not javascript reading the html. Make the php gather the data and just download the csv on click
+Make it so you choose the ping delay and it defaults to 5 seconds or something.
