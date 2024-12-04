@@ -64,16 +64,32 @@ if (!empty($Target)){
 
 // Get list of current targets and print
 $result = $collection->find();
-echo "<br>";
-echo "<h1>Current Targets</h1>";
+//set up table
+echo "<h1>Target List</h1>";  
+echo "<div style='height:500px; width:600px; overflow: auto;'>";
+echo "<table>";
+echo "<tr>";
+echo "<th>Target</th>";
+echo "<th>Description</th>";
+echo "<th>Delay</th>";
+echo "</tr>";
+    //insert rows into table
 foreach ($result as $entry) {
-    echo json_encode($entry['Target']), PHP_EOL;
-    echo ": ";
-    echo json_encode($entry['Description']), PHP_EOL;
-    echo ":";
-    echo json_encode($entry['Delay']), PHP_EOL;
-    echo " Second Delay<br>";
+    echo "<tr>";
+    echo "<td>";
+    echo json_encode($entry['Target']);
+    echo "</td>";
+    echo "<td>";
+    echo json_encode($entry['Description']);
+    echo "</td>";
+    echo "<td>";
+    echo json_encode($entry['Delay']);
+    echo "</td>";
+    echo "</tr>";
+    echo PHP_EOL;
 }
+echo "</table>";
+echo "</div>";
 
 ?>
 </body>
