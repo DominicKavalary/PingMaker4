@@ -13,11 +13,29 @@ import datetime
 ### "Global" list of targets removed, processes will periodically check to see if their target is in this list, if it is, they will end their processes.  ###
 removedTargets = []
 
-### Functiont to compare old list of targets and new list of targets and return targets that have been added or removed
+### Function to compare old list of targets and new list of targets and return targets that have been added or removed. Please for the love of god future dom, please do past dom a solid and make this more efficient than what you have come up with in your deranged state
 def compareTargets(oldTargets, newTargets):
-  new_set = set(newTargets)
-  old_set = set(oldTargets)
-  return new_set - old_set, old_set - new_set
+  # take targets from each and compare the sets
+  new_list = []
+  old_list = []
+  for item in newTargets:
+    new_list.append(item[0])
+  for item in oldTargets:
+    old_list.append(item[0])
+  new_set = set(new_list)
+  old_set = set(old_list)
+  # Now get the TargetItems from their respective lists by getting the added fromt he new list and the removed from the old list
+  added_list = new_set - old_set
+  removed_list = old_set - new_set
+  addedArray = []
+  removedArray = []
+  for item in newTargets:
+    if item[0] in added_list:
+      addedArray.append(item)
+  for item in oldTargets:
+    if item[0] in removed_list:
+      removedArray.append(item)
+  return addedArray, removedArray
   
 ### Function to turn cli output into an array, each line being an item in the array###
 def getOutput(Command):
