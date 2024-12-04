@@ -21,12 +21,14 @@
     </form>
     <h2>Removing Target</h2>
     <form id="runRequest" action="remtargets.php" method="POST">
-    Add Target: <input type="text" name="target" required><br>
+    <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="submit">
     </form>
-    <h2>Update Target Description</h2>
+    <h2>Update Target</h2>
     <form id="runRequest" action="updatetargets.php" method="POST">
-    Add Target: <input type="text" name="target" required><br>
+    <input type="text" name="target" placeholder="IP or Hostname" required><br>
+    <input type="text" name="description" placeholder="Description" required><br>
+    <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
     <input type="submit">
     </form>
 <?php
