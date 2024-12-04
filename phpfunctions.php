@@ -21,7 +21,7 @@ function GetRequestTable($result){
   echo "<h1>$Target</h1>", PHP_EOL;  
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
   echo "<table>", PHP_EOL;
-  echo "<tr><th>Time Of Ping</th><th>Packet Loss</th><th>Response Time</th><th>Response Time</th>Error Note</tr>";
+  echo "<tr><th>Time Of Ping</th><th>Packet Loss</th><th>Response Time</th><th>Response Time</th><th>Error Note</th></tr>";
   //insert rows into table
   foreach ($result as $entry) {
     echo "<tr><td>";
