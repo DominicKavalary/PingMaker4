@@ -14,7 +14,9 @@
     <h1>Database Functions</h1>
     <h2>Add Target</h2>
     <form id="runRequest" action="addtargets.php" method="POST">
-    Add Target: <input type="text" name="target"><br>
+    Target: <input type="text" name="target"><br>
+    Description: <input type="text" name="description"><br>
+    Ping Delay: <input type="text" name="delay"><br>
     <input type="submit">
     </form>
     <h2>Removing Target</h2>
