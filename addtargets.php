@@ -68,7 +68,9 @@ foreach ($result as $entry) {
     echo json_encode($entry['Target']), PHP_EOL;
     echo ": ";
     echo json_encode($entry['Description']), PHP_EOL;
-    echo "<br>";
+    echo ":";
+    echo json_encode($entry['Delay']), PHP_EOL;
+    echo " Second Delay<br>";
 }
 
 ?>
