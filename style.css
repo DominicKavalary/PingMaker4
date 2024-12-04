@@ -47,3 +47,13 @@ body {
 tr:nth-child(even) {
             background-color: white;
         }
+input {
+  width: 20%;
+  margin: 2px;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+input:focus {
+  background-color: lightgrey;
+}
