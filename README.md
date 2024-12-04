@@ -68,6 +68,7 @@ Test if you can rach apache server with address of ubuntu server
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/remtargets.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/addtargets.php -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/status.php -P /var/www/html/
 
 ## Things of note
 - Depending on the amount of targets, and how long you want to keep data for, you want you may need to increase:
