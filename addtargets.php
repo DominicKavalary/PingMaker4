@@ -25,7 +25,7 @@
     <input type="submit" value="Remove" name="submit">
     </form>
     <h2>Update Target</h2>
-    <form id="runRequest" action="updatetargets.php" method="POST">
+    <form id="runRequest" action="addtargets.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
@@ -62,6 +62,15 @@ if (!empty($Target)){
       if ($result['Target'] == $Target){
           $collection->deleteOne(['Target' => $Target,]);
           echo "<h1 style='color:green;'>Target removed from database</h1><br>";
+      }else {
+          echo "<h1 style='color:red;'>Error: Target not found in database</h1><br>";
+      }
+    } else if ($Submit == "Update"){
+      $result = $collection->findOne(['Target' => $Target]);
+      if ($result['Target'] == $Target){
+          $collection->updateOne([ 'Target' => $Target ], [ '$set' => [ 'Description' => $Description ]]);
+          $collection->updateOne([ 'Target' => $Target ], [ '$set' => [ 'Delay' => $Delay ]]);
+          echo "<h1 style='color:green;'>Target updated</h1><br>";
       }else {
           echo "<h1 style='color:red;'>Error: Target not found in database</h1><br>";
       }
