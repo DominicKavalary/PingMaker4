@@ -58,7 +58,7 @@ if (!empty($Target)){
     if ($found == False) {
 	$collection->insertOne(['Target' => $Target, 'Description' => $Description, 'Delay' => $Delay,]);
     }else {
-	echo "<p>Target already in database</p><br>";
+	echo "<h1 style='color:red;'>Error: Target already in database</h1><br>";
     }
 }
 
