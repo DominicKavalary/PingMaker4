@@ -116,7 +116,5 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - security logins
 - database user created for database interactions
 - css
-- get a way of downloading csv file from the html tables
--   CHANGE THIS to use php and not javascript reading the html. Make the php gather the data and just download the csv on click
 - validate user input on forms, possibly keep doing it in the python script like do delay tests to see if delay is valid
 - - stress test
