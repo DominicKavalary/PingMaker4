@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="style.css">
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="request.html">Requests</a></li>
-      <li><a href="targets.html">Targets</a></li>
+      <li><a href="request.php">Requests</a></li>
+      <li><a href="targets.php">Targets</a></li>
       <li><a href="status.php">Status</a></li>
     </ul>
   </head>
