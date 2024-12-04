@@ -48,48 +48,33 @@ $Delay = $_POST["delay"];
 //Check if the target is null, if it is, dont do anything
 if (!empty($Target)){
 //Function to find if target is already in database, if it isnt, add it with the description
-    $result = $collection->find();
-    $found = False;
-    foreach ($result as $entry){
-        if ($entry['Target'] == $Target){
-            $found = True;
-        }
-    }
-    if ($found == False) {
-	$collection->insertOne(['Target' => $Target, 'Description' => $Description, 'Delay' => $Delay,]);
+    $result = $collection->findOne(['Target' => $Target]);
+    if ($result['Target'] == $Target){
+        echo "<h1 style='color:red;'>Error: Target already in database</h1><br>";
     }else {
-	echo "<h1 style='color:red;'>Error: Target already in database</h1><br>";
+        $collection->insertOne(['Target' => $Target, 'Description' => $Description, 'Delay' => $Delay,]);
     }
 }
 
 // Get list of current targets and print
 $result = $collection->find();
 //set up table
-echo "<h1>Target List</h1>";  
-echo "<div style='height:500px; width:600px; overflow: auto;'>";
-echo "<table>";
-echo "<tr>";
-echo "<th>Target</th>";
-echo "<th>Description</th>";
-echo "<th>Delay</th>";
-echo "</tr>";
+echo "<h1>Target List</h1>", PHP_EOL;  
+echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
+echo "<table>", PHP_EOL;
+echo "<tr><th>Target</th><th>Description</th><th>Delay</th></tr>";
     //insert rows into table
 foreach ($result as $entry) {
-    echo "<tr>";
-    echo "<td>";
+    echo "<tr><td>";
     echo json_encode($entry['Target']);
-    echo "</td>";
-    echo "<td>";
+    echo "</td><td>";
     echo json_encode($entry['Description']);
-    echo "</td>";
-    echo "<td>";
+    echo "</td><td>";
     echo json_encode($entry['Delay']);
-    echo "</td>";
-    echo "</tr>";
+    echo "</td></tr>";
     echo PHP_EOL;
 }
-echo "</table>";
-echo "</div>";
+echo "</table></div>";
 
 ?>
 </body>
