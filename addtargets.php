@@ -20,7 +20,7 @@
     <input type="submit" value="Add" name="submit">
     </form>
     <h2>Removing Target</h2>
-    <form id="runRequest" action="remtargets.php" method="POST">
+    <form id="runRequest" action="addtargets.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="submit" value="Remove" name="submit">
     </form>
@@ -55,6 +55,15 @@ if (!empty($Target)){
           echo "<h1 style='color:red;'>Error: Target already in database</h1><br>";
       }else {
           $collection->insertOne(['Target' => $Target, 'Description' => $Description, 'Delay' => $Delay,]);
+          echo "<h1 style='color:green;'>Target added to database</h1><br>";
+      }
+    } else if ($Submit == "Remove"){
+      $result = $collection->findOne(['Target' => $Target]);
+      if ($result['Target'] == $Target){
+          $collection->deleteOne(['Target' => $Target,]);
+          echo "<h1 style='color:green;'>Target removed from database</h1><br>";
+      }else {
+          echo "<h1 style='color:red;'>Error: Target not found in database</h1><br>";
       }
     }
 }
