@@ -17,25 +17,25 @@
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
-    <input type="submit" value="Add">
+    <input type="submit" value="Add" name="submit">
     </form>
     <h2>Removing Target</h2>
     <form id="runRequest" action="remtargets.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
-    <input type="submit" value="Remove">
+    <input type="submit" value="Remove" name="submit">
     </form>
     <h2>Update Target</h2>
     <form id="runRequest" action="updatetargets.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
-    <input type="submit" value="Update">
+    <input type="submit" value="Update" name="submit">
     </form>
 <?php
 
 // Include Composer autoload (make sure it's included to load the MongoDB library)
 require 'vendor/autoload.php'; // Path to Composer's autoload file
-
+require 'phpfunctions.php';
 // Create a new MongoDB client to connect to the MongoDB server
 $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
 $database = $client->database;
@@ -45,6 +45,7 @@ $collection = $database->targets;
 $Target = $_POST["target"];
 $Description = $_POST["description"];
 $Delay = $_POST["delay"];
+$Submit = $_POST["submit"]
 //Check if the target is null, if it is, dont do anything
 if (!empty($Target)){
 //Function to find if target is already in database, if it isnt, add it with the description
