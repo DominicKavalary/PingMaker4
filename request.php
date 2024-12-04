@@ -17,10 +17,6 @@
     <input type="submit" value="Get Target Data" name="submit">
     </form>
 
-<button type="button" onclick="tableToCSV()">
-            download CSV
-</button>
-
 <script type="text/javascript">
         function tableToCSV() {
             // Variable to store the final csv data
@@ -85,6 +81,7 @@ $result = $collection->find(['Target' => $Target]);
 if (!empty($Target)){
     //set up table
   GetRequestTable($result);
+  echo "<button type='button' onclick='tableToCSV()'>Download CSV</button>";
 }
 
 
