@@ -42,6 +42,7 @@ $collection = $database->targets;
 // Get variables, some may have Target some may have description, remove only has target
 $Target = $_POST["target"];
 $Description = $_POST["description"];
+$Delay = $_POST["delay"];
 //Check if the target is null, if it is, dont do anything
 if (!empty($Target)){
 //Function to find if target is already in database, if it isnt, add it with the description
@@ -53,7 +54,7 @@ if (!empty($Target)){
         }
     }
     if ($found == False) {
-	$collection->insertOne(['Target' => $Target, 'Description' => $Description,]);
+	$collection->insertOne(['Target' => $Target, 'Description' => $Description, 'Delay' => $Delay,]);
     }else {
 	echo "<p>Target already in database</p><br>";
     }
