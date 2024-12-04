@@ -118,3 +118,4 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - css
 - validate user input on forms, possibly keep doing it in the python script like do delay tests to see if delay is valid
 - - stress test
+- make it so python error writing writes to an errors collection which the status page can open up for viewers to view. Errors delete after a week
