@@ -89,6 +89,7 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 
 # Todo:
 - security logins
+- self signed cert for HTTPS in apache2
 - database user created for database interactions
 - css
 - make target request page, update page, and delete page use a dropdown of available targets with description
