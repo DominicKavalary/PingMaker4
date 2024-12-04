@@ -53,12 +53,14 @@ def getTargets():
   client.close()
 # create empty list of targets
   ListOfTargets = []
-  # for every document in the target collection, grab the target
+  # for every document in the target collection, grab the target and the Delay
   for document in targetDocuments:
     Target = document['Target']
     #Now, run Regex checks on every target in order to have a quick validation. This will not grab all of the bad ones, but it will do most. Later, we will have methods to kill processes if they end up being bad so that it doesnt waste cpu.
     if testTargetRegex(Target):
-      ListOfTargets.append(Target)
+      Delay = int(document['Delay'])
+      TargetItem = [Target, Delay]
+      ListOfTargets.append(TargetItem)
   return ListOfTargets
 
 ### Function to create needed directories and error file for code to work
@@ -96,7 +98,7 @@ def getPingArray(Target):
   return [timeOfPing,packetLoss,responseTime,errorNote]
 
 ### Function to be threaded. This function handles the main process of pinging and storing file data
-def PingMaker(Target):
+def PingMaker(Target, Delay):
   # Error Count, this is to count total errors, if total errors of a certain kind happen often, it will close the thread because it will nto ever succede
   errorCount = 0
   # Setting up the while statement to always run and continuously try pinging, otherwise if the event happens it will break the loop#
@@ -134,8 +136,8 @@ def PingMaker(Target):
     if Target in removedTargets:
       keepProcessRunning = False
       removedTargets.remove(Target)
-    # tell the program to wait a second. this is because a succesfull ping will generally happen pretty quick, and errors depending on which kind can show up immediatly. so this will limit the pings/errors to about one every one or two seconds. 
-    time.sleep(1)
+    # tell the program to wait the delay period. this is because a succesfull ping will generally happen pretty quick, and errors depending on which kind can show up immediatly. so this will limit the pings/errors to about one every one or two seconds. 
+    time.sleep(Delay)
 
 
 ########    ----   MAIN     ----    ####### MAYBE DO THE IF MAIN THING#
@@ -146,8 +148,8 @@ databaseSetup()
 # Get list of targets
 ListOfTargets = getTargets()
 # Start a thread per target. Each thread will ping the target and log to their own files. spreads the starting of threads by waiting fractions of a second so that the pings dont all happen liek once like a firing squad and mess up the cpu
-for Target in ListOfTargets:
-  PingThread = threading.Thread(target=PingMaker, args=(Target,))
+for TargetItem in ListOfTargets:
+  PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
   PingThread.start()
   time.sleep(random.random()/3)
 
@@ -159,14 +161,14 @@ while 1 == 1:
     added, removed = compareTargets(ListOfTargets, newTargets)
     # if length of added is 1 or more, start the process for everything in added
     if len(added) >=1:
-      for Target in added:
-        if testTargetRegex(Target):
-          PingThread = threading.Thread(target=PingMaker, args=(Target,))
+      for TargetItem in added:
+        if testTargetRegex(TargetItem[0]):
+          PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
           PingThread.start()
           time.sleep(random.random()/3)
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
-      for Target in removed:
-        removedTargets.append(Target)
+      for TargetItem in removed:
+        removedTargets.append(TargetItem[0])
     ListOfTargets = newTargets
 
