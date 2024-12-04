@@ -45,15 +45,17 @@ $collection = $database->targets;
 $Target = $_POST["target"];
 $Description = $_POST["description"];
 $Delay = $_POST["delay"];
-$Submit = $_POST["submit"]
+$Submit = $_POST["submit"];
 //Check if the target is null, if it is, dont do anything
 if (!empty($Target)){
 //Function to find if target is already in database, if it isnt, add it with the description
-    $result = $collection->findOne(['Target' => $Target]);
-    if ($result['Target'] == $Target){
-        echo "<h1 style='color:red;'>Error: Target already in database</h1><br>";
-    }else {
-        $collection->insertOne(['Target' => $Target, 'Description' => $Description, 'Delay' => $Delay,]);
+    if ($Submit == "Add"){
+      $result = $collection->findOne(['Target' => $Target]);
+      if ($result['Target'] == $Target){
+          echo "<h1 style='color:red;'>Error: Target already in database</h1><br>";
+      }else {
+          $collection->insertOne(['Target' => $Target, 'Description' => $Description, 'Delay' => $Delay,]);
+      }
     }
 }
 
