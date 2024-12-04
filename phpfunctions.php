@@ -1,5 +1,5 @@
 <?php
-function GetTable($result){
+function GetTargetTable($result){
   echo "<h1>Target List</h1>", PHP_EOL;  
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
   echo "<table>", PHP_EOL;
