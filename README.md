@@ -62,12 +62,10 @@ session required pam_limits.so
 Test if you can rach apache server with address of ubuntu server
 - rm /var/www/html/index.html
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/index.html -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/targets.html -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.html -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/style.css -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/remtargets.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/addtargets.php -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/targets.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/status.php -P /var/www/html/
 Now to enable our server to use SSH with a self signed cert
 - sudo a2enmod ssl
@@ -119,12 +117,6 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - security logins
 - database user created for database interactions
 - css
-- make target request page, update page, and delete page use a dropdown of available targets with description
-- check if target exists before attempting to delete and update
-- Add Update
-- make targets.html php and just list targets at end with no functions
--   ALSO maybe make tabs on targets.html and go to each function from there instead of having them all on one
--   ALTERNATIVLY make the forms submit a static value fo whatever function they are and put all target interactions in one php file that checks what value the function is and do only the code form that function. This is a maybe good idea
 - get a way of downloading csv file from the html tables
 -   CHANGE THIS to use php and not javascript reading the html. Make the php gather the data and just download the csv on click
 - validate user input on forms, possibly keep doing it in the python script like do delay tests to see if delay is valid
