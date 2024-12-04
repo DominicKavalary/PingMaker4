@@ -17,19 +17,19 @@
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
-    <input type="submit">
+    <input type="submit" value="Add">
     </form>
     <h2>Removing Target</h2>
     <form id="runRequest" action="remtargets.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
-    <input type="submit">
+    <input type="submit" value="Remove">
     </form>
     <h2>Update Target</h2>
     <form id="runRequest" action="updatetargets.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
-    <input type="submit">
+    <input type="submit" value="Update">
     </form>
 <?php
 
