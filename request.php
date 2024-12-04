@@ -14,12 +14,13 @@
     <h1>Request Target Info</h1>
     <form id="runRequest" action="request.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
-    <input type="submit">
+    <input type="submit" value="Get Target Data" name="submit">
     </form>
 
 <button type="button" onclick="tableToCSV()">
             download CSV
 </button>
+
 <script type="text/javascript">
         function tableToCSV() {
             // Variable to store the final csv data
@@ -71,7 +72,7 @@
 
 // Include Composer autoload (make sure it's included to load the MongoDB library)
 require 'vendor/autoload.php'; // Path to Composer's autoload file
-
+require 'phpfunctions.php';
 // Create a new MongoDB client to connect to the MongoDB server
 $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
 $database = $client->database;
@@ -79,41 +80,11 @@ $collection = $database->collection;
 
 // Get variables, some may have Target some may have description, remove only has target
 $Target = $_POST["target"];
-$Query = array('Target' => $Target);
-$result = $collection->find($Query);
+$result = $collection->find(['Target' => $Target]);
 //Check if the target is null, if it is, dont do anything
 if (!empty($Target)){
-//Function
     //set up table
-    echo "<h1>$Target</h1>";  
-    echo "<div style='height:500px; width:600px; overflow: auto;'>";
-    echo "<table>";
-    echo "<tr>";
-    echo "<th>Time Of Ping</th>";
-    echo "<th>Packet Loss</th>";
-    echo "<th>Response Time</th>";
-    echo "<th>Error Note</th>";
-    echo "</tr>";
-    //insert rows into table
-    foreach ($result as $entry) {
-        echo "<tr>";
-        echo "<td>";
-        echo json_encode($entry['timeOfPing']);
-        echo "</td>";
-        echo "<td>";
-        echo json_encode($entry['packetLoss']);
-        echo "</td>";
-        echo "<td>";
-        echo json_encode($entry['responseTime']);
-        echo "</td>";
-        echo "<td>";
-        echo json_encode($entry['errorNote']);
-        echo "</td>";
-        echo "</tr>";
-        echo PHP_EOL;
-    }
-    echo "</table>";
-    echo "</div>";
+  GetRequestTable($result);
 }
 
 
