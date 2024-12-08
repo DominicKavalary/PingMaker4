@@ -177,6 +177,6 @@ while 1 == 1:
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
       for TargetItem in removed:
-        removedTargets.append(TargetItem)
+        del removedTargets[TargetItem]
     ListOfTargets = newTargets
 
