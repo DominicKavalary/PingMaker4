@@ -75,6 +75,19 @@ try {
   echo PHP_EOL;
 }
 
+	//Python Script Service Test
+echo "<h1>PingMaker Errors</h1>";
+try {
+	// Create a new MongoDB client to connect to the MongoDB server
+  $client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
+  $database = $client->database;
+  $collection = $database->errors;
+  $result = $collection->find();
+  GetErrorTable($result);
+} catch (Exception $ex) {
+	echo "Error getting errors from database";
+  echo PHP_EOL;
+}
 
 ?>
 </body>
