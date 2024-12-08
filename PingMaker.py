@@ -44,9 +44,18 @@ def getOutput(Command):
   return output
 
 ### Function to write errors to our error file 
-def errWrite(Message):
-  with open("/home/PingMaker/errors/Errors.txt", "a") as errfile:
-    errfile.write("\n"+Message)
+def errWrite(Target, Message):
+  client = pymongo.MongoClient(host="localhost", port=27017)
+  db = client["database"]
+  collection = db["errors"]
+  # format data for DB insertion
+  data = {
+    "Target": Target,
+    "Error": Message,
+    "createdAt": datetime.datetime.now(datetime.timezone.utc)
+  }
+  # insert data
+  collection.insert_one(data)
 
 #### Function to do a quick address format validation on the targets in the target file. X.X.X.X and XXX.XXX(sorta) for ips and hostnames####
 def testTargetRegex(Target):
@@ -58,7 +67,7 @@ def testTargetRegex(Target):
     if re.search(regex,Target):
       return True
     else:
-      errWrite("Regex test failed for: " + Target)
+      errWrite(Target, "Regex test failed")
       return False
   
 ### Function to get targets from target file. then parse through them and remove bad ones. EVentually move the regex checking to the php file targets.php, eventually add a note variable to the target collection documents and add to that note if the regex failed or not so they can see it in the web table when i make that
@@ -80,20 +89,6 @@ def getTargets():
       TargetItem = [Target, Delay]
       ListOfTargets.append(TargetItem)
   return ListOfTargets
-
-### Function to create needed directories and error file for code to work
-def makeDirectories():
-  subprocess.run(["mkdir", "/home/PingMaker/errors"])
-  subprocess.run(["touch", "/home/PingMaker/errors/Errors.txt"])
-
-### Function to create and set up database
-def databaseSetup():
-  client = pymongo.MongoClient(host="localhost", port=27017)
-  db = client["database"]
-  collection = db["targets"]
-  collection = db["collection"]
-  collection.create_index([("createdAt", 1)], expireAfterSeconds=604800)
-  client.close()
   
 ### Function to do a ping command, and return the output as an array of values. The array is: the time of ping, the packet loss, the response time, and any note outputted by the command#
 def getPingArray(Target):
@@ -145,10 +140,10 @@ def PingMaker(Target, Delay):
     if "NA" not in pingArray[3]:
       errorCount += 1
       if "Name or service not known" in pingArray[3]:
-        errWrite("Name or service not known for target: "+Target+", validate target format\nEnding thread for target "+Target+" under the assumption of an improper target")
+        errWrite(Target, "Name or service not known, validate target format. Ending thread for target")
         keepProcessRunning = False
-      if errorCount == 750:
-        errWrite("Excessive errors for: " + Target)
+      if errorCount == 400:
+        errWrite(Target, "Excessive errors")
         errorCount = 0
     # check if its in the list of removed targets, if it is, set the keepprocessrunning flag to false and remove the target from that list
     if Target in removedTargets:
@@ -159,10 +154,6 @@ def PingMaker(Target, Delay):
 
 
 ########    ----   MAIN     ----    ####### MAYBE DO THE IF MAIN THING#
-# sets up needed directories
-makeDirectories()
-# sets up mongodb database with required database name, collection names, and ttl to do record rotation
-databaseSetup()
 # Get list of targets
 ListOfTargets = getTargets()
 # Start a thread per target. Each thread will ping the target and log to their own files. spreads the starting of threads by waiting fractions of a second so that the pings dont all happen liek once like a firing squad and mess up the cpu
