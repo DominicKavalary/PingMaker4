@@ -21,7 +21,7 @@ def compareTargets(oldTargets, newTargets):
   # get added by subtracting old from new, get removed by subtracking new from old, get the same using & operator. We need the same so we can check if the delays have changed on any, since the set stuff doesnt check if the delay changed. Still need to work on a way of ending the ping processes per target manually instead of letting these processesd contantly check the removedtargets list
   added_set = new_set - old_set
   removed_set = old_set - new_set
-  #same_set = new_set & old_set
+  same_set = new_set & old_set
   addedDict = {}
   removedDict = {}
   # go back and using the new and old dictionarys, recreate the key value pairs of target and delay
@@ -29,9 +29,10 @@ def compareTargets(oldTargets, newTargets):
     addedDict[item] = newTargets[item]
   for item in removed_set:
     removedDict[item] = oldTargets[item]
-  #for item in same_set:
-    #if oldTargets[item] != newTargets[item]:
-        #  This needs to wait until i can figure out shutting of processes manually. this is because right now they just constantly look at the removed target list. if i add the target again to register the new
+  for item in same_set:
+    if oldTargets[item] != newTargets[item]:
+      removedDict[item] = oldTargets[item]
+      addedDict[item] = newTargets[item]
   return addedDict, removedDict
   
 ### Function to turn cli output into an array, each line being an item in the array###
