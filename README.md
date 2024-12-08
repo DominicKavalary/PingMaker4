@@ -123,6 +123,6 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - css
 - validate user input on forms, possibly keep doing it in the python script like do delay tests to see if delay is valid
 - - stress test
-- make it so changing delay will stop current process and start new process. possibly add a function to the comparetargets function in the python script to run through the old target data and thr new atrget data and if any of the targets that werent added or removed have different delays, add the target to the list of removed, wait 30 seconds, then start the new process. this will make it so that if you start the new process it wont see itself in the removed targets list and shut off when it shoudlnt.
 - move target and user actions to the phpfucntions somehow? i dont like the idea of you submitting your own page over and over again. eh who knows though
 - add a php thing that grabs all your targets and makes select options for the requests page
+- HAVE NOT TESTED MOST RECENT PINGMAKER CODE when i added the dictionary updates
