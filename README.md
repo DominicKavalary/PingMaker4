@@ -48,9 +48,12 @@ session required pam_limits.so
 - mkdir /home/PingMaker
 - cd /home/PingMaker
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingMaker.py
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingSetup.py
 - nano /etc/systemd/system/PingMaker.service
 - - Copy paste the contents of the PingMaker.service file in the repository
 - apt install python3-pymongo
+- python3 PingSetup.py
+- 	Will ask you to input a username and password for the admin account
 - systemctl enable PingMaker.service
 - systemctl daemon-reload
 - systemctl start PingMaker.service
@@ -66,6 +69,9 @@ Test if you can rach apache server with address of ubuntu server
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/targets.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/status.php -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/home.php -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/login.php -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/phpfunctions.php -P /var/www/html/
 Now to enable our server to use SSH with a self signed cert
 - sudo a2enmod ssl
 - sudo systemctl restart apache2
