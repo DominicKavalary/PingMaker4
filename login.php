@@ -14,7 +14,7 @@ $collection = $database->users;
 if (!empty($Username)){
     if ($Login == "login"){
       $result = $collection->findOne(['Username' => $Username]);
-      if ($result['Password'] == md5($Password)){
+      if ($result['Password'] == hash('sha256', $Password)){
 	            session_regenerate_id();
 		    $_SESSION['loggedin'] = TRUE;
 		    $_SESSION['name'] = $_POST['username'];
