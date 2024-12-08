@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: index.html');
+	exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -92,7 +100,6 @@ if (!empty($Target)){
   }
   echo "<button type='button' onclick='tableToCSV()'>Download CSV</button>";
 }
-
 
 ?>
 </body>
