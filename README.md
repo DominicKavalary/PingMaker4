@@ -126,3 +126,4 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - move target and user actions to the phpfucntions somehow? i dont like the idea of you submitting your own page over and over again. eh who knows though
 - add a php thing that grabs all your targets and makes select options for the requests page
 - HAVE NOT TESTED MOST RECENT PINGMAKER CODE when i added the dictionary updates
+- Make it so you cant remove the last admin user in the delete user function
