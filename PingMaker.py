@@ -55,6 +55,7 @@ def errWrite(Target, Message):
   }
   # insert data
   collection.insert_one(data)
+  client.close()
 
 #### Function to do a quick address format validation on the targets in the target file. X.X.X.X and XXX.XXX(sorta) for ips and hostnames####
 def testTargetRegex(Target):
