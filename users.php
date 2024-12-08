@@ -32,10 +32,10 @@ if ($_SESSION['role'] != "Admin") {
     <form id="runRequest" action="users.php" method="POST">
     <input type="text" name="username" placeholder="Username" required><br>
     <input type="password" name="password" placeholder="Password" required><br>
-    <input type="radio" id="Admin" name="role" value="Admin">
-    <label for="html">Admin</label><br>
-    <input type="radio" id="Guest" name="role" value="Guest">
-    <label for="css">Guest</label><br>
+    <input type="radio" class="radio" id="Admin" name="role" value="Admin">
+    <label for="Admin">Admin</label>
+    <input type="radio" class="radio" id="Guest" name="role" value="Guest">
+    <label for="Guest">Guest</label><br>
     <input type="submit" value="Add" name="submit">
     </form>
     <h2>Remove user</h2>
