@@ -1,6 +1,6 @@
 <?php
 function GetTargetTable($result){
-  echo "<h1>Target List</h1>", PHP_EOL;  
+  echo "<h1>Target Table</h1>", PHP_EOL;  
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
   echo "<table>", PHP_EOL;
   echo "<tr><th>Target</th><th>Description</th><th>Delay</th></tr>";
@@ -18,6 +18,7 @@ function GetTargetTable($result){
   echo "</table></div>";
 }
 function GetRequestTable($result){
+  echo "<h1>Ping Table</h1>", PHP_EOL;
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
   echo "<table>", PHP_EOL;
   echo "<tr><th>Time Of Ping</th><th>Packet Loss</th><th>Response Time</th><th>Error Note</th></tr>";
@@ -37,6 +38,7 @@ function GetRequestTable($result){
   echo "</table></div>";
 }
 function GetUserTable($result){
+  echo "<h1>User Table</h1>", PHP_EOL;
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
   echo "<table>", PHP_EOL;
   echo "<tr><th>User</th><th>Role</th></tr>";
@@ -52,6 +54,7 @@ function GetUserTable($result){
   echo "</table></div>";
 }
 function GetErrorTable($result){
+  echo "<h1>Error Table</h1>", PHP_EOL;
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
   echo "<table>", PHP_EOL;
   echo "<tr><th>Target</th><th>Error</th><th>Time</th></tr>";
