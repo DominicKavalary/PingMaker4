@@ -54,7 +54,7 @@ function GetUserTable($result){
   echo "</table></div>";
 }
 function GetErrorTable($result){
-  echo "<h1>Error Table</h1>", PHP_EOL;
+  echo "<h2>Error Table</h2>", PHP_EOL;
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
   echo "<table>", PHP_EOL;
   echo "<tr><th>Target</th><th>Error</th><th>Time</th></tr>";
