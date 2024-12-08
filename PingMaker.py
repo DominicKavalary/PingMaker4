@@ -11,31 +11,28 @@ import pymongo
 import datetime
 
 ### "Global" list of targets removed, processes will periodically check to see if their target is in this list, if it is, they will end their processes.  ###
-removedTargets = []
+removedTargets = {}
 
-### Function to compare old list of targets and new list of targets and return targets that have been added or removed. Please for the love of god future dom, please do past dom a solid and make this more efficient than what you have come up with in your deranged state
+### Function to compare old list of targets and new list of targets and return targets that have been added or removed. 
 def compareTargets(oldTargets, newTargets):
-  # take targets from each and compare the sets
-  new_list = []
-  old_list = []
-  for item in newTargets:
-    new_list.append(item[0])
-  for item in oldTargets:
-    old_list.append(item[0])
-  new_set = set(new_list)
-  old_set = set(old_list)
-  # Now get the TargetItems from their respective lists by getting the added fromt he new list and the removed from the old list
-  added_list = new_set - old_set
-  removed_list = old_set - new_set
-  addedArray = []
-  removedArray = []
-  for item in newTargets:
-    if item[0] in added_list:
-      addedArray.append(item)
-  for item in oldTargets:
-    if item[0] in removed_list:
-      removedArray.append(item)
-  return addedArray, removedArray
+  # take targets from each and compare the sets. We need to know what targets were added, which were removed, and which stayed the same.
+  new_set = set(newTargets)
+  old_set = set(oldTargets)
+  # get added by subtracting old from new, get removed by subtracking new from old, get the same using & operator. We need the same so we can check if the delays have changed on any, since the set stuff doesnt check if the delay changed. Still need to work on a way of ending the ping processes per target manually instead of letting these processesd contantly check the removedtargets list
+  added_set = new_set - old_set
+  removed_set = old_set - new_set
+  #same_set = new_set & old_set
+  addedDict = {}
+  removedDict = {}
+  # go back and using the new and old dictionarys, recreate the key value pairs of target and delay
+  for item in added_set:
+    addedDict[item] = newTargets[item]
+  for item in removed_set:
+    removedDict[item] = oldTargets[item]
+  #for item in same_set:
+    #if oldTargets[item] != newTargets[item]:
+        #  This needs to wait until i can figure out shutting of processes manually. this is because right now they just constantly look at the removed target list. if i add the target again to register the new
+  return addedDict, removedDict
   
 ### Function to turn cli output into an array, each line being an item in the array###
 def getOutput(Command):
@@ -80,15 +77,14 @@ def getTargets():
   targetDocuments = collection.find({})
   client.close()
 # create empty list of targets
-  ListOfTargets = []
+  ListOfTargets = {}
   # for every document in the target collection, grab the target and the Delay
   for document in targetDocuments:
     Target = document['Target']
     #Now, run Regex checks on every target in order to have a quick validation. This will not grab all of the bad ones, but it will do most. Later, we will have methods to kill processes if they end up being bad so that it doesnt waste cpu.
     if testTargetRegex(Target):
       Delay = int(document['Delay'])
-      TargetItem = [Target, Delay]
-      ListOfTargets.append(TargetItem)
+      ListOfTargets[Target] = Delay
   return ListOfTargets
   
 ### Function to do a ping command, and return the output as an array of values. The array is: the time of ping, the packet loss, the response time, and any note outputted by the command#
@@ -146,10 +142,10 @@ def PingMaker(Target, Delay):
       if errorCount == 400:
         errWrite(Target, "Excessive errors")
         errorCount = 0
-    # check if its in the list of removed targets, if it is, set the keepprocessrunning flag to false and remove the target from that list
-    if Target in removedTargets:
+    # check if its in the list of removed targets, if it is and the delay matches, set the keepprocessrunning flag to false and remove the target from that list
+    if Target in removedTargets and removedTargets[Target] == Delay:
       keepProcessRunning = False
-      removedTargets.remove(Target)
+      del removedTargets[Target]
     # tell the program to wait the delay period. this is because a succesfull ping will generally happen pretty quick, and errors depending on which kind can show up immediatly. so this will limit the pings/errors to about one every one or two seconds. 
     time.sleep(Delay)
 
@@ -158,7 +154,7 @@ def PingMaker(Target, Delay):
 # Get list of targets
 ListOfTargets = getTargets()
 # Start a thread per target. Each thread will ping the target and log to their own files. spreads the starting of threads by waiting fractions of a second so that the pings dont all happen liek once like a firing squad and mess up the cpu
-for TargetItem in ListOfTargets:
+for TargetItem in ListOfTargets.items():
   PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
   PingThread.start()
   time.sleep(random.random()/3)
@@ -171,7 +167,7 @@ while 1 == 1:
     added, removed = compareTargets(ListOfTargets, newTargets)
     # if length of added is 1 or more, start the process for everything in added
     if len(added) >=1:
-      for TargetItem in added:
+      for TargetItem in added.items():
         if testTargetRegex(TargetItem[0]):
           PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
           PingThread.start()
@@ -179,6 +175,6 @@ while 1 == 1:
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
       for TargetItem in removed:
-        removedTargets.append(TargetItem[0])
+        removedTargets.append(TargetItem)
     ListOfTargets = newTargets
 
