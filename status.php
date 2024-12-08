@@ -25,7 +25,7 @@ if (!isset($_SESSION['loggedin'])) {
 <?php
 // Include Composer autoload (make sure it's included to load the MongoDB library)
 require 'vendor/autoload.php'; // Path to Composer's autoload file
-
+require 'phpfunctions.php';
 //MongoDB PHP Connection Test
 echo "<h1>MongoDB Connection</h1>";
 try {
