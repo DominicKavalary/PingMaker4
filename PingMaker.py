@@ -68,7 +68,7 @@ def testTargetRegex(Target):
     if re.search(regex,Target):
       return True
     else:
-      errWrite(Target, "Regex test failed")
+      errWrite(Target, "Regex test failed. Validate target format. Not spawning thread for target.")
       return False
   
 ### Function to get targets from target file. then parse through them and remove bad ones. EVentually move the regex checking to the php file targets.php, eventually add a note variable to the target collection documents and add to that note if the regex failed or not so they can see it in the web table when i make that
