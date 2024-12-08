@@ -5,6 +5,8 @@ $Username = $_POST["username"];
 $Password = $_POST["password"];
 $Login = $_POST["login"];
 
+require 'vendor/autoload.php';
+
 $client = new MongoDB\Client("mongodb://localhost:27017");
 $database = $client->database;
 $collection = $database->users;
