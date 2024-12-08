@@ -36,6 +36,7 @@ if ($_SESSION['role'] != "Admin") {
     <option value="Guest">Guest</option>
     <option value="Admin">Guest</option>
     </select>
+    <br>
     <input type="submit" value="Add" name="submit">
     </form>
     <h2>Remove user</h2>
