@@ -52,6 +52,7 @@ def errWrite(Target, Message):
   data = {
     "Target": Target,
     "Error": Message,
+    "Time": time.strftime("%D:%H:%M:%S"),
     "createdAt": datetime.datetime.now(datetime.timezone.utc)
   }
   # insert data
