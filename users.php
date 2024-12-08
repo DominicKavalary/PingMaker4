@@ -42,6 +42,8 @@ if ($_SESSION['role'] != "Admin") {
     <h2>Remove user</h2>
   <form id="runRequest" action="users.php" method="POST">
     <input type="text" name="username" placeholder="Username" required><br>
+    <input type="checkbox" class="selectoptions" id="areyousure" required><br>
+    <label for="areyousure">Are you sure?</label><br>
     <input type="submit" value="Remove" name="submit">
     </form>
     <h2>Update User</h2>
