@@ -18,6 +18,7 @@ if (!empty($Username)){
 	            session_regenerate_id();
 		    $_SESSION['loggedin'] = TRUE;
 		    $_SESSION['name'] = $_POST['username'];
+	            $_SESSION['role'] = $result['Role'];
         header('Location: home.php');
       }else {
           echo 'Incorrect username and/or password!';
