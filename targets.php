@@ -19,6 +19,12 @@ if (!isset($_SESSION['loggedin'])) {
     </ul>
   </head>
 <body>
+	
+<?php
+if ($_SESSION['role'] != "Admin") {
+	echo "<h1 style='color:red;'>You need admin permissions in order to edit target database. Forms will do nothing until current user is changed</h1><br>";
+}
+?>
     <h1>Database Functions</h1>
     <h2>Add Target</h2>
     <form id="runRequest" action="targets.php" method="POST">
@@ -54,8 +60,9 @@ $Target = $_POST["target"];
 $Description = $_POST["description"];
 $Delay = $_POST["delay"];
 $Submit = $_POST["submit"];
+
 //Check if the target is null, if it is, dont do anything
-if (!empty($Target)){
+if (!empty($Target) && $_SESSION['role'] == "Admin"){
 //Function to find if target is already in database, if it isnt, add it with the description
     if ($Submit == "Add"){
       $result = $collection->findOne(['Target' => $Target]);
