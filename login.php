@@ -10,9 +10,10 @@ $database = $client->database;
 $collection = $database->users;
 
 if (!empty($Username)){
-    if ($Submit == "Login"){
-      $result = $collection->findOne(['Username' => $Target]);
+    if ($Login == "login"){
+      $result = $collection->findOne(['Username' => $Username]);
       if ($result['Password'] == md5($Password)){
+	            session_regenerate_id();
 		    $_SESSION['loggedin'] = TRUE;
 		    $_SESSION['name'] = $_POST['username'];
         header('Location: home.php');
