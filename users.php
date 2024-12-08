@@ -35,7 +35,7 @@ if ($_SESSION['role'] != "Admin") {
     <input type="radio" id="Admin" name="role" value="Admin">
     <label for="html">Admin</label><br>
     <input type="radio" id="Guest" name="role" value="Guest">
-    <label for="css">guest</label><br>
+    <label for="css">Guest</label><br>
     <input type="submit" value="Add" name="submit">
     </form>
     <h2>Remove user</h2>
