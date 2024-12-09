@@ -176,7 +176,7 @@ while 1 == 1:
           time.sleep(random.random()/3)
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
-      for TargetItem in removed:
-        del removedTargets[TargetItem]
+      for TargetItem in removed.items():
+        removedTargets[TargetItem[0]] = TargetItem[1]
     ListOfTargets = newTargets
 
