@@ -40,7 +40,8 @@ session required pam_limits.so
   - unsure but do not do these later to test if unecesary
 - sudo apt install composer
 - composer require mongodb/mongodb
-- 
+- MORE PHP STUFF
+- session.use_strict_mode = 1
 
 ## PingMaker Monitoring Script Setup
 ### Ubuntu Server (Tested on Noble)
