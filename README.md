@@ -66,6 +66,7 @@ Test if you can rach apache server with address of ubuntu server
 - rm /var/www/html/index.html
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/index.html -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/style.css -P /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/users.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/targets.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/status.php -P /var/www/html/
