@@ -23,7 +23,20 @@ if (!isset($_SESSION['loggedin'])) {
 <body>
     <h1>Request Target Info</h1>
     <form id="runRequest" action="request.php" method="POST">
-    <input type="text" name="target" placeholder="IP or Hostname" required><br>
+    <select name="target" placeholder="IP or Hostname">
+    <?php
+        require 'vendor/autoload.php';
+	$client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
+	$database = $client->database;
+	$collection = $database->targets;
+	$result = $collection->find();
+	foreach ($result as $entry) {
+		$Value = json_encode($entry['Target']);
+		echo "<option value='$Value'>$Value</option>";
+		echo PHP_EOL;
+	}
+	?>
+    </select>
     <input type="submit" value="Get Target Data" name="submit">
     </form>
 
