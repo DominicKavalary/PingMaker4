@@ -31,15 +31,13 @@ session required pam_limits.so
 ### Ubuntu Server (Tested on Noble)
 - sudo apt install php-dev
 - sudo pecl install mongodb
--  - do all default options when they appear by just clicking enter
+- 	do all default options when they appear by just clicking enter
 - locate your php ini file using the command "php --ini" it is labeled as loaded configuration file
-- - edit that file and add the line "extension=mongodb.so"
+	- - edit that file and add the line "extension=mongodb.so"
 - sudo apt install libapache2-mod-php8.3
 - nano /etc/php/8.3/apache2/php.ini
-- - edit that file and add the line "extension=mongodb.so"
-  - unsure but do not do these later to test if unecesary
+- 	edit that file and add the line "extension=mongodb.so"
 - sudo apt install composer
-- composer require mongodb/mongodb
 - MORE PHP STUFF
 - session.use_strict_mode = 1
 
@@ -63,7 +61,7 @@ session required pam_limits.so
 ### Ubuntu Server (Tested on Noble)
 - sudo apt update
 - sudo apt install apache2
-Test if you can rach apache server with address of ubuntu server
+- 	Test if you can rach apache server with address of ubuntu server
 - rm /var/www/html/index.html
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/index.html -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/style.css -P /var/www/html/
@@ -74,16 +72,17 @@ Test if you can rach apache server with address of ubuntu server
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/home.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/login.php -P /var/www/html/
 - wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/phpfunctions.php -P /var/www/html/
-Now to enable our server to use SSH with a self signed cert
+- composer require mongodb/mongodb
+#### Now to enable our server to use SSH with a self signed cert
 - sudo a2enmod ssl
 - sudo systemctl restart apache2
 - sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
-When you are prompted to, make the "Common Name" the IP or hostname of the server, the rest isnt that important
-- sudo nano /etc/apache2/sites-available/192.168.150.133.conf
-Make the site-available file the hostname or ip of your server, and paste this in
+- 	When you are prompted to, make the "Common Name" the IP or hostname of the server, the rest isnt that important
+- sudo nano /etc/apache2/sites-available/192.168.150.134.conf
+- 	Make the site-available file the hostname or ip of your server, and paste this in
 '''
 <VirtualHost *:443>
-   ServerName 192.168.150.133
+   ServerName 192.168.150.134
    DocumentRoot /var/www/html
 
    SSLEngine on
@@ -91,12 +90,13 @@ Make the site-available file the hostname or ip of your server, and paste this i
    SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
 </VirtualHost>
 <VirtualHost *:80>
-	ServerName 192.168.150.133
-	Redirect / https://192.168.150.133/
+	ServerName 192.168.150.134
+	Redirect / https://192.168.150.134/
 </VirtualHost>
 '''
-- sudo a2ensite 192.168.150.133.conf
+- sudo a2ensite 192.168.150.134.conf
 - sudo systemctl reload apache2
+### Uknown if needed
 - sudo ufw allow "Apache Full"
 
 
