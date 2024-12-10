@@ -54,6 +54,7 @@ if ($_SESSION['role'] != "Admin") {
     <option value="Guest">Guest</option>
     <option value="Admin">Guest</option>
     </select>
+    <br>
     <input type="submit" value="Update" name="submit">
     </form>
 <?php
