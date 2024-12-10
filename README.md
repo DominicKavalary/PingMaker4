@@ -140,3 +140,4 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - Make it so you cant remove the last admin user in the delete user function
 - Just learned that the mongodb connection made by php probably dont close. they maybe persist accross sessions so maybe i just need to make one on succesfull login
 - add more duration between when new targets are spun up in that ending while loop
+- make it so that php to handle form submission happens before forms
