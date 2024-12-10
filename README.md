@@ -38,8 +38,18 @@ session required pam_limits.so
 - nano /etc/php/8.3/apache2/php.ini
 - 	edit that file and add the line "extension=mongodb.so"
 - sudo apt install composer
-- MORE PHP STUFF
-- session.use_strict_mode = 1
+#### If youd like extra security on the webpage with php session stuff do the below
+-- nano /etc/php/8.3/apache2/php.ini
+-- session.use_strict_mode = 1
+-- file_uploads = Off
+-- disable_functions = system, shell_exec, passthru, phpinfo, show_source, highlight_file, popen, proc_open, fopen_with_path, dbmopen, dbase_open, putenv, move_uploaded_file, chdir, mkdir, rmdir, chmod, rename, filepro, filepro_rowcount, filepro_retrieve, posix_mkfifo
+-- session.sid_length = 150
+-- session.name = PingMakerPHPSESSID
+-- session.cookie_lifetime = 600
+-- session.cookie_httponly = 1
+-- session.cookie_samesite = Strict
+-- session.cookie_secure = 1
+-- session.sid_bits_per_character = 6
 
 ## PingMaker Monitoring Script Setup
 ### Ubuntu Server (Tested on Noble)
