@@ -1,7 +1,9 @@
 # PingMaker4
 pingmaker3 but attempted to add database stuff and maybe web stuff
 
-
+## Time set up
+### Ubuntu Server (Tested on Noble)
+- timedatectl set-timezone ENTERTIMEZONEHERE
 
 ## MongoDB Installation For Monitoring Database
 ### Ubuntu Server (Tested on Noble)
