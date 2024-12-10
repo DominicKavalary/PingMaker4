@@ -37,12 +37,37 @@ if ($_SESSION['role'] != "Admin") {
     </form>
     <h2>Removing Target</h2>
     <form id="runRequest" action="targets.php" method="POST">
-    <input type="text" name="target" placeholder="IP or Hostname" required><br>
+    <select name="target" placeholder="IP or Hostname">
+    <?php
+        require 'vendor/autoload.php';
+	$client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
+	$database = $client->database;
+	$collection = $database->targets;
+	$result = $collection->find();
+	foreach ($result as $entry) {
+		$Value = json_encode($entry['Target']);
+		echo "<option value='$Value'>$Value</option>";
+		echo PHP_EOL;
+	}
+    ?>
+    </select>
     <input type="submit" value="Remove" name="submit">
     </form>
     <h2>Update Target</h2>
     <form id="runRequest" action="targets.php" method="POST">
-    <input type="text" name="target" placeholder="IP or Hostname" required><br>
+    <select name="target" placeholder="IP or Hostname">
+    <?php
+        require 'vendor/autoload.php';
+	$client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
+	$database = $client->database;
+	$collection = $database->targets;
+	$result = $collection->find();
+	foreach ($result as $entry) {
+		$Value = json_encode($entry['Target']);
+		echo "<option value='$Value'>$Value</option>";
+		echo PHP_EOL;
+	}
+    ?>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
     <input type="submit" value="Update" name="submit">
