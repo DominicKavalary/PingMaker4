@@ -32,7 +32,7 @@ if ($_SESSION['role'] != "Admin") {
     <form id="runRequest" action="targets.php" method="POST">
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="text" name="description" placeholder="Description" required><br>
-    <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
+    <input type="number" name="delay" placeholder="Ping Delay In Seconds" min="1" required><br>
     <input type="submit" value="Add" name="submit">
     </form>
     <h2>Removing Target</h2>
