@@ -63,15 +63,16 @@ session required pam_limits.so
 - sudo apt install apache2
 - 	Test if you can rach apache server with address of ubuntu server
 - rm /var/www/html/index.html
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/index.html -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/style.css -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/users.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/targets.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/status.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/home.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/login.php -P /var/www/html/
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/phpfunctions.php -P /var/www/html/
+- cd /var/www/html/
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/index.html
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/style.css
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/users.php
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/request.php
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/targets.php
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/status.php
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/home.php
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/login.php
+- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/phpfunctions.php
 - composer require mongodb/mongodb
 #### Now to enable our server to use SSH with a self signed cert
 - sudo a2enmod ssl
