@@ -45,7 +45,7 @@ if ($_SESSION['role'] != "Admin") {
 	$collection = $database->targets;
 	$result = $collection->find();
 	foreach ($result as $entry) {
-		$Value = json_encode($entry['Target']);
+		$Value = $entry['Target'];
 		echo "<option value='$Value'>$Value</option>";
 		echo PHP_EOL;
 	}
@@ -63,7 +63,7 @@ if ($_SESSION['role'] != "Admin") {
 	$collection = $database->targets;
 	$result = $collection->find();
 	foreach ($result as $entry) {
-		$Value = json_encode($entry['Target']);
+		$Value = $entry['Target'];
 		echo "<option value='$Value'>$Value</option>";
 		echo PHP_EOL;
 	}
