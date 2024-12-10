@@ -34,7 +34,7 @@ if ($_SESSION['role'] != "Admin") {
     <input type="password" name="password" placeholder="Password" required><br>
     <select name="role">
     <option value="Guest">Guest</option>
-    <option value="Admin">Guest</option>
+    <option value="Admin">Admin</option>
     </select>
     <br>
     <input type="submit" value="Add" name="submit">
@@ -52,7 +52,7 @@ if ($_SESSION['role'] != "Admin") {
     <input type="password" name="password" placeholder="Password" required><br>
     <select name="role">
     <option value="Guest">Guest</option>
-    <option value="Admin">Guest</option>
+    <option value="Admin">Admin</option>
     </select>
     <br>
     <input type="submit" value="Update" name="submit">
