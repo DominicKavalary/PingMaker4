@@ -108,11 +108,6 @@ session required pam_limits.so
 '''
 - sudo a2ensite 192.168.150.134.conf
 - sudo systemctl reload apache2
-### Uknown if needed
-- sudo ufw allow "Apache Full"
-
-
-
 
 
 ## Things of note
@@ -120,7 +115,6 @@ session required pam_limits.so
 -   Disk Size
 -   Memory
 -   CPU
-You can change the retention time in the python script when it innitialized some database stuff. The time is in seconds I beleive. You can also change hwo quickly this software pings by also changing the value in the python script. EXCEPT NOT FOR LONG I JUST HAD A GREAT IDEA. Gonna make it so when you add targets you also select the delay of pings in seconds and then the python script can get that information when the target pinging process is created.
 
 Generally, 10 targets being pinged every 5 seconds for a day will take up
 - UNKNOWN AMOUNT OF CPU at any time
