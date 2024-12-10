@@ -116,9 +116,11 @@ session required pam_limits.so
 -   Memory
 -   CPU
 
-Generally, 10 targets being pinged every 5 seconds for a day will take up
+# 135.5 mongo 136.6
+# 30.9 PingMaker
+### Generally, a targets being pinged every second for a day will take up
 - UNKNOWN AMOUNT OF CPU at any time
-- UNKNOWN GB MEMORY at any time
+- Memory: 180 + 
 - UNKNOWN GB STORAGE at the end of the day
 
 Use these semi accurate kinda metrics to calculate your needs. If you ping every second multiply by roughly 5 i think
@@ -134,3 +136,4 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - move target and user actions to the phpfucntions somehow? i dont like the idea of you submitting your own page over and over again. eh who knows though
 - HAVE NOT TESTED MOST RECENT PINGMAKER CODE when i added the dictionary updates
 - Make it so you cant remove the last admin user in the delete user function
+- Just learned that the mongodb connection made by php probably dont close. they maybe persist accross sessions so maybe i just need to make one on succesfull login
