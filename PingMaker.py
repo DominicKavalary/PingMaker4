@@ -142,7 +142,7 @@ def PingMaker(Target, Delay):
         errWrite(Target, "Name or service not known, validate target format. Ending thread for target")
         keepProcessRunning = False
       if errorCount == 400:
-        errWrite(Target, "Excessive errors")
+        errWrite(Target, "400 Errors reached, restarting error count.")
         errorCount = 0
     # check if its in the list of removed targets, if it is and the delay matches, set the keepprocessrunning flag to false and remove the target from that list
     if Target in removedTargets and removedTargets[Target] == Delay:
