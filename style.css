@@ -66,6 +66,11 @@ button{
   border: 1px solid;
   border-radius: 4px;
   color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: grey;
 }
 
 .selectoptions{
