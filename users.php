@@ -87,14 +87,32 @@ if ($_SESSION['role'] != "Admin") {
     </form>
     <h2>Remove user</h2>
   <form id="runRequest" action="users.php" method="POST">
-    <input type="text" name="username" placeholder="Username" required><br>
+    <select name="username" placeholder="Username">
+<?php
+	$result = $collection->find();
+	foreach ($result as $entry) {
+		$Value = $entry['Username'];
+		echo "<option value='$Value'>$Value</option>";
+		echo PHP_EOL;
+	}
+?>
+    </select><br>
     <input type="checkbox" class="selectoptions" id="areyousure" required><br>
     <label for="areyousure">Are you sure?</label><br>
     <input type="submit" value="Remove" name="submit">
     </form>
     <h2>Update User</h2>
   <form id="runRequest" action="users.php" method="POST">
-    <input type="text" name="username" placeholder="Username" required><br>
+    <select name="username" placeholder="Username">
+<?php
+	$result = $collection->find();
+	foreach ($result as $entry) {
+		$Value = $entry['Username'];
+		echo "<option value='$Value'>$Value</option>";
+		echo PHP_EOL;
+	}
+?>
+    </select><br>
     <input type="password" name="password" placeholder="Password" required><br>
     <select name="role">
     <option value="Guest">Guest</option>
