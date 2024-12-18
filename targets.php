@@ -79,7 +79,7 @@ if ($_SESSION['role'] != "Admin") {
     <input type="text" name="target" placeholder="IP or Hostname" required><br>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="number" name="delay" placeholder="Ping Delay In Seconds" min="1" required><br>
-    <input type="submit" value="Add" name="submit">
+    <input type="submit" value="Add" name="submit"><br>
     </form>
     <h2>Removing Target</h2>
     <form id="runRequest" action="targets.php" method="POST">
@@ -93,6 +93,7 @@ if ($_SESSION['role'] != "Admin") {
 	}
     ?>
     </select>
+    <br>
     <input type="submit" value="Remove" name="submit">
     </form>
     <h2>Update Target</h2>
@@ -106,6 +107,7 @@ if ($_SESSION['role'] != "Admin") {
 		echo PHP_EOL;
 	}
     ?>
+    <br>
     <input type="text" name="description" placeholder="Description" required><br>
     <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
     <input type="submit" value="Update" name="submit">
