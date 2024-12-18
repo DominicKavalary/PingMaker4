@@ -24,8 +24,10 @@ if (!isset($_SESSION['loggedin'])) {
     <h1>Request Target Info</h1>
     <form id="runRequest" action="request.php" method="POST">
     <select name="target" placeholder="IP or Hostname">
-    <?php
+<?php
         require 'vendor/autoload.php';
+	require 'phpfunctions.php';
+	$Target = $_POST["target"];
 	$client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
 	$database = $client->database;
 	$collection = $database->targets;
@@ -35,7 +37,7 @@ if (!isset($_SESSION['loggedin'])) {
 		echo "<option value='$Value'>$Value</option>";
 		echo PHP_EOL;
 	}
-	?>
+?>
     </select>
     <input type="submit" value="Get Target Data" name="submit">
     </form>
@@ -89,31 +91,12 @@ if (!isset($_SESSION['loggedin'])) {
   
 <?php
 
-// Include Composer autoload (make sure it's included to load the MongoDB library)
-require 'vendor/autoload.php'; // Path to Composer's autoload file
-require 'phpfunctions.php';
-// Create a new MongoDB client to connect to the MongoDB server
-$client = new MongoDB\Client("mongodb://localhost:27017"); // Change if your MongoDB is hosted elsewhere
-$database = $client->database;
-$collection = $database->targets;
-$Found = False;
-$Target = $_POST["target"];
-$result = $collection->findOne(['Target' => $Target]);
-      if ($result['Target'] == $Target){
-        $Found = True;
-      }
-$collection = $database->collection;
-// Get variables, some may have Target some may have description, remove only has target
-
-$result = $collection->find(['Target' => $Target]);
 //Check if the target is null, if it is, dont do anything
 if (!empty($Target)){
-  if ($Found == True){
-    GetRequestTable($result);
-  }else {
-    echo "<h1 style='color:red;'>Error: Target not found in database</h1><br>";
-  }
-  echo "<button type='button' onclick='tableToCSV()'>Download CSV</button>";
+	$collection = $database->collection;
+	$result = $collection->find(['Target' => $Target]);
+	GetRequestTable($result);
+  	echo "<button type='button' onclick='tableToCSV()'>Download CSV</button>";
 }
 
 ?>
