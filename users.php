@@ -63,7 +63,7 @@ if ($_SESSION['role'] != "Admin") {
 	    } else if ($Submit == "Update"){
 	      $result = $collection->findOne(['Username' => $Username]);
 	      if ($result['Username'] == $Username){
-	          $collection->updateOne([ 'Username' => $Username ], [ '$set' => [ 'Password' => $Password ]]);
+	          $collection->updateOne([ 'Username' => $Username ], [ '$set' => [ 'Password' => hash('sha256',$Password)]]);
 	          $collection->updateOne([ 'Username' => $Username ], [ '$set' => [ 'Role' => $Role ]]);
 	          echo "<h1 style='color:green;'>User updated</h1><br>";
 	      }else {
