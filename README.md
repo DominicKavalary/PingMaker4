@@ -137,9 +137,6 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - validate user input on forms, possibly keep doing it in the python script like do delay tests to see if delay is valid
 - - stress test
 - move target and user actions to the phpfucntions somehow? i dont like the idea of you submitting your own page over and over again. eh who knows though
-- HAVE NOT TESTED MOST RECENT PINGMAKER CODE when i added the dictionary updates
-- Make it so you cant remove the last admin user in the delete user function
 - Just learned that the mongodb connection made by php probably dont close. they maybe persist accross sessions so maybe i just need to make one on succesfull login
 - add more duration between when new targets are spun up in that ending while loop
-- make it so that php to handle form submission happens before forms
 - also maybe add additional security by not just checking if the session is logged in, but also if the IP has changed or anything like that to try and further prevent session stealing
