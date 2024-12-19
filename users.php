@@ -85,7 +85,8 @@ if ($_SESSION['role'] != "Admin") {
     <form id="runRequest" action="users.php" method="POST">
     <input type="text" name="username" placeholder="Username" required><br>
     <input type="password" name="password" placeholder="Password" required><br>
-    <select name="role">
+    <label for="addrole">Role:</label>
+    <select name="role" id="addrole">
     <option value="Guest">Guest</option>
     <option value="Admin">Admin</option>
     </select>
@@ -93,8 +94,9 @@ if ($_SESSION['role'] != "Admin") {
     <input type="submit" value="Add" name="submit">
     </form>
     <h2>Remove user</h2>
-  <form id="runRequest" action="users.php" method="POST">
-    <select name="username" placeholder="Username">
+    <form id="runRequest" action="users.php" method="POST">
+    <label for="removeusername">User:</label>
+    <select name="username" placeholder="Username" id="removeusername">
 <?php
 	$result = $collection->find();
 	foreach ($result as $entry) {
@@ -104,13 +106,14 @@ if ($_SESSION['role'] != "Admin") {
 	}
 ?>
     </select><br>
-    <input type="checkbox" class="selectoptions" id="areyousure" required>
-    <label for="areyousure">Are you sure?</label><br>
+    <label for="areyousure">Are you sure?</label>
+    <input type="checkbox" class="selectoptions" id="areyousure" required><br>
     <input type="submit" value="Remove" name="submit">
     </form>
     <h2>Update User</h2>
-  <form id="runRequest" action="users.php" method="POST">
-    <select name="username" placeholder="Username">
+    <form id="runRequest" action="users.php" method="POST">
+    <label for="updateusername">User:</label>
+    <select name="username" placeholder="Username" id="updateusername">
 <?php
 	$result = $collection->find();
 	foreach ($result as $entry) {
@@ -121,7 +124,8 @@ if ($_SESSION['role'] != "Admin") {
 ?>
     </select><br>
     <input type="password" name="password" placeholder="Password" required><br>
-    <select name="role">
+    <label for="updaterole">Role:</label>
+    <select name="role" id="updateroll">
     <option value="Guest">Guest</option>
     <option value="Admin">Admin</option>
     </select>
