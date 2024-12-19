@@ -110,7 +110,7 @@ if ($_SESSION['role'] != "Admin") {
     </select>
     <br>
     <input type="text" name="description" placeholder="Description" required><br>
-    <input type="text" name="delay" placeholder="Ping Delay In Seconds" required><br>
+    <input type="number" name="delay" placeholder="Ping Delay In Seconds" min="1" required><br>
     <input type="submit" value="Update" name="submit">
     </form>
 <?php
