@@ -54,7 +54,9 @@ input {
   border-radius: 4px;
   text-align: center;
 }
-
+input[type=submit]:hover {
+  background-color: lightgrey;
+}
 input:focus {
   background-color: lightgrey;
 }
@@ -74,5 +76,5 @@ button:hover {
 }
 
 .selectoptions{
-  width: 3%;
+  width: 2%;
 }
