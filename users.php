@@ -104,7 +104,7 @@ if ($_SESSION['role'] != "Admin") {
 	}
 ?>
     </select><br>
-    <input type="checkbox" class="selectoptions" id="areyousure" required><br>
+    <input type="checkbox" class="selectoptions" id="areyousure" required>
     <label for="areyousure">Are you sure?</label><br>
     <input type="submit" value="Remove" name="submit">
     </form>
