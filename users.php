@@ -55,8 +55,15 @@ if ($_SESSION['role'] != "Admin") {
 	    } else if ($Submit == "Remove"){
 	      $result = $collection->findOne(['Username' => $Username]);
 	      if ($result['Username'] == $Username){
-	          $collection->deleteOne(['Username' => $Username,]);
-	          echo "<h1 style='color:green;'>User removed from database</h1><br>";
+	          if ($result['Role'] == 'Guest'){
+		  	$collection->deleteOne(['Username' => $Username,]);
+	          	echo "<h1 style='color:green;'>User removed from database</h1><br>";
+		  } else if ($collection->count(['Role' => 'Admin']) > 1){
+			$collection->deleteOne(['Username' => $Username,]);
+	         	echo "<h1 style='color:green;'>User removed from database</h1><br>";  
+		  } else{
+			 echo "<h1 style='color:red;'>Cannot remove last Admin user from database</h1><br>";
+		  }
 	      }else {
 	          echo "<h1 style='color:red;'>Error: User not found in database</h1><br>";
 	      }
