@@ -9,7 +9,7 @@ class TraceObject:
     self.address = Address
     self.nexthops = []
     # if the address inputed into the object matches a next hop it has, return true
-  def ifHopMatches(self, Address):
+  def HopMatches(self, Address):
     if self.nexthops:
       for hop in self.nexthops:
         if hop.address == Address:
@@ -20,16 +20,25 @@ class TraceObject:
       # add a traceobject to the array of next hops
   def addHop(self, Hop):
     self.nexthops.append(Hop)
-
+  def getMatchedHop(self, Address):
+    for hop in self.nexthops:
+        if hop.address == Address:
+          return hop
 #TraceMaker frunction to get the route to your targets from the server
 def TraceMaker(Target, Delay):
-  # check if the tree has started being built. if not, keep the flag false to start to build it, if it has, dont keep checking
-  TreeBuilt = False
+  # check if the tree has started being built. if not, built root node. regardless, set the Tracemap variable to be the current or new map
   client = pymongo.MongoClient(host="localhost", port=27017)
   db = client["database"]
   collection = db["tracemaps"]
-  if collection.find_one({'Target': Target}):
-    TreeBuilt = True
+  Tracemap = collection.find_one({'Target': Target})
+  if not Tracemap:
+    data = {
+    "Target": Target,
+    "Tree": TraceObject("Self")
+    }
+  # insert data
+    collection.insert_one(data)
+    Tracemap = data
   client.close()
 
   # Set up the loop to keep doing traceroutes
@@ -43,12 +52,7 @@ def TraceMaker(Target, Delay):
         HopArray.append("Fail")
       elif "ms" in line:
         HopArray.append(line=line.split("  ")[1])
-  ######################################## THINGS I NEED###############################
-  - Summary of failures
-        if it goes 192.16.1.1 then fail fail fail 192.168.2.1 i need it to report 192.168.1.1 3 fails 192.168.2.1
-  
-  - also currently the new target list will always make regex fail messages every 5 minutes because we aren't removing the bad target from the database, we are expcluding it form current list of targets. SO every 5 minutes when it gets the list of targets it will grab the bad one and do the regex test again
-  ##############################################################################
+
   # establish connection with DB
     client = pymongo.MongoClient(host="localhost", port=27017)
     db = client["database"]
@@ -63,18 +67,20 @@ def TraceMaker(Target, Delay):
     # insert data
     collection.insert_one(data)
 
-    # Building the tree
-
-   def buildTree(HopArray):
-     # Hop array depth tracker
-     HopTracker = 0
-     # the first node in the tree is the machine itself
-     Node=TraceObject("Self")
+    # checking and adding to the tree
+   def CheckAndAdd(HopArray):
+     # the first node in the tree is the machine itself, so we can go from there
+     Node = Tracemap["Tree"]
      #Now you need to check to see if the next node exists and matches the next recorded hop
-     Node.
+     for Address in HopArray:
+       if Node.HopMatches(Address):
+         Node = Node.getMatchedHop(Address)
+       else:
+         Node.addHop(TraceObject(Address))
 
     if TreeBuilt == False:
-      # build innitial tree
+      # build innitial tree root
+      Node=TraceObject("Self")
       for item in HopArray:
         TreeNode = TraceObject(item)
 
@@ -114,3 +120,13 @@ while 1 == 1:
       TraceThread = threading.Thread(target=TraceMaker, args=(Target[0],TargetItem[1],))
           TraceThread.start()
           time.sleep(random.random()/3)
+
+
+
+
+  ######################################## THINGS I NEED###############################
+  - Summary of failures
+        if it goes 192.16.1.1 then fail fail fail 192.168.2.1 i need it to report 192.168.1.1 3 fails 192.168.2.1
+  
+  - also currently the new target list will always make regex fail messages every 5 minutes because we aren't removing the bad target from the database, we are expcluding it form current list of targets. SO every 5 minutes when it gets the list of targets it will grab the bad one and do the regex test again
+  ##############################################################################
