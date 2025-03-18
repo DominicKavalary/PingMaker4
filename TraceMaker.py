@@ -77,13 +77,7 @@ def TraceMaker(Target, Delay):
          Node = Node.getMatchedHop(Address)
        else:
          Node.addHop(TraceObject(Address))
-
-    if TreeBuilt == False:
-      # build innitial tree root
-      Node=TraceObject("Self")
-      for item in HopArray:
-        TreeNode = TraceObject(item)
-
+         Node = Node.getMatchedHop(Address)
 
 
 
