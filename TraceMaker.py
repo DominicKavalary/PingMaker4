@@ -24,6 +24,28 @@ class TraceObject:
     for hop in self.nexthops:
         if hop.address == Address:
           return hop
+
+# checking and adding to the tree
+def CheckAndAdd(HopArray, Tracemap, Target):
+  # set up a boolean to trip if soemthing is found
+  FoundNewRoute = False
+  # the first node in the tree is the machine itself, so we can go from there
+  Node = Tracemap["Tree"]
+  #Now you need to check to see if the next node exists and matches the next recorded hop, do it over and over again till you find new routes
+  for Address in HopArray:
+    if Node.HopMatches(Address):
+      Node = Node.getMatchedHop(Address)
+    else:
+      Node.addHop(TraceObject(Address))
+      Node = Node.getMatchedHop(Address)
+      FoundNewRoute = True
+  if FoundNewRoute == True:
+    client = pymongo.MongoClient(host="localhost", port=27017)
+    db = client["database"]
+    collection = db["tracemaps"]
+    collection.update_one({'Target' : Target}, { '$set' : { 'Tree' : Tracemap["Tree"] }})
+    client.close()
+
 #TraceMaker frunction to get the route to your targets from the server
 def TraceMaker(Target, Delay):
   # check if the tree has started being built. if not, built root node. regardless, set the Tracemap variable to be the current or new map
@@ -64,25 +86,14 @@ def TraceMaker(Target, Delay):
         "HopArray": HopArray,
         "createdAt": datetime.datetime.now(datetime.timezone.utc)
     }
-    # insert data
+    # insert data and close connection
     collection.insert_one(data)
-
-    # checking and adding to the tree
-   def CheckAndAdd(HopArray):
-     # the first node in the tree is the machine itself, so we can go from there
-     Node = Tracemap["Tree"]
-     #Now you need to check to see if the next node exists and matches the next recorded hop
-     for Address in HopArray:
-       if Node.HopMatches(Address):
-         Node = Node.getMatchedHop(Address)
-       else:
-         Node.addHop(TraceObject(Address))
-         Node = Node.getMatchedHop(Address)
-
-
-
-    # close connection so theres not a million files open
     client.close()
+    
+    # call the check and add function on the hop array so it can add hops to the tree
+    CheckAndAdd(HopArray, Tracemap, Target)
+
+    # sleep for delay timer
     time.sleep(Delay)
 
 
