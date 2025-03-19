@@ -9,9 +9,11 @@ import os
 import random
 import pymongo
 import datetime
+import TraceMaker
 
-### "Global" list of targets removed, processes will periodically check to see if their target is in this list, if it is, they will end their processes.  ###
+### "Global" lists of targets removed, processes will periodically check to see if their target is in this list, if it is, they will end their processes.  ###
 removedTargets = {}
+removedTraceTargets = {}
 
 ### Function to compare old list of targets and new list of targets and return targets that have been added or removed. 
 def compareTargets(oldTargets, newTargets):
@@ -155,12 +157,14 @@ def PingMaker(Target, Delay):
 ########    ----   MAIN     ----    ####### MAYBE DO THE IF MAIN THING#
 # Get list of targets
 ListOfTargets = getTargets()
-# Start a thread per target. Each thread will ping the target and log to their own files. spreads the starting of threads by waiting fractions of a second so that the pings dont all happen liek once like a firing squad and mess up the cpu
+# Start a thread per target. Each thread will ping the target and trace its routes. spreads the starting of threads by waiting fractions of a second so that the pings dont all happen liek once like a firing squad and mess up the cpu
 for TargetItem in ListOfTargets.items():
   PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
   PingThread.start()
   time.sleep(random.random()/3)
-
+  TraceThread = threading.Thread(target=TraceMaker, args=(TargetItem[0],TargetItem[1],))
+  TraceThread.start()
+  time.sleep(random.random()/3)
 # now check forever every 5 minutes wether the target collection has changed or not. if it has, you know a target has been removed or added
 while 1 == 1:
   time.sleep(300)
@@ -174,10 +178,14 @@ while 1 == 1:
           PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
           PingThread.start()
           time.sleep(random.random()/3)
+          TraceThread = threading.Thread(target=TraceMaker, args=(TargetItem[0],TargetItem[1],))
+          TraceThread.start()
+          time.sleep(random.random()/3)
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
       for TargetItem in removed.items():
         removedTargets[TargetItem[0]] = TargetItem[1]
+        removedTraceTargets[TargetItem[0]] = TargetItem[1]
     ListOfTargets = newTargets
 
 ##
