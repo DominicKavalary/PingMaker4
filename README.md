@@ -63,6 +63,7 @@ session required pam_limits.so
 - nano /etc/systemd/system/PingMaker.service
 - - Copy paste the contents of the PingMaker.service file in the repository
 - apt install python3-pymongo
+- apt install traceroute -y
 - python3 PingSetup.py
 - 	Will ask you to input a username and password for the admin account
 - systemctl enable PingMaker.service
