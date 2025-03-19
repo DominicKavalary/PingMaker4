@@ -1,6 +1,3 @@
-# Prerequisites
-sudo apt install traceroute -y
-
 # Create the TraceObject object. this will be the core of our TraceTree
 class TraceObject:
   #  define the object, it has two variables, address and nexthops. nexthops will be an array that holds traceobjects. address will be the hop address
@@ -69,10 +66,11 @@ def TraceMaker(Target, Delay):
     TimeOfTrace = time.strftime("%D:%H:%M:%S")
     output = getOutput("traceroute "+Target)
     for line in output:
-      if "* * *" in line:
+      if "* * *" in line and HopArray[-1] != "Fail":
         HopArray.append("Fail")
       elif "ms" in line:
         HopArray.append(line=line.split("  ")[1])
+
   # establish connection with DB
     client = pymongo.MongoClient(host="localhost", port=27017)
     db = client["database"]
@@ -94,10 +92,3 @@ def TraceMaker(Target, Delay):
     if Target in removedTraceTargets and removedTraceTargets[Target] == Delay:
       keepProcessRunning = False
       del removedTraceTargets[Target]
-
-  ######################################## THINGS I NEED###############################
-  - Summary of failures
-        if it goes 192.16.1.1 then fail fail fail 192.168.2.1 i need it to report 192.168.1.1 3 fails 192.168.2.1
-  
-  - also currently the new target list will always make regex fail messages every 5 minutes because we aren't removing the bad target from the database, we are expcluding it form current list of targets. SO every 5 minutes when it gets the list of targets it will grab the bad one and do the regex test again
-  ##############################################################################
