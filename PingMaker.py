@@ -180,3 +180,5 @@ while 1 == 1:
         removedTargets[TargetItem[0]] = TargetItem[1]
     ListOfTargets = newTargets
 
+##
+##YO maybe you dont need to do a regex test at the bottom bevause the newtargets gettargets already does one?
