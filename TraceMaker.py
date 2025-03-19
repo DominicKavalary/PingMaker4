@@ -1,6 +1,5 @@
 # Prerequisites
 sudo apt install traceroute -y
-make a traceroutes collection and a tracemaps collection in mongodb
 
 # Create the TraceObject object. this will be the core of our TraceTree
 class TraceObject:
@@ -62,9 +61,9 @@ def TraceMaker(Target, Delay):
     collection.insert_one(data)
     Tracemap = data
   client.close()
-
   # Set up the loop to keep doing traceroutes
-  while 1==1:
+  keepProcessRunning = True
+  while keepProcessRunning:
   # setting up array for hops to go in
     HopArray = []
     TimeOfTrace = time.strftime("%D:%H:%M:%S")
@@ -74,7 +73,6 @@ def TraceMaker(Target, Delay):
         HopArray.append("Fail")
       elif "ms" in line:
         HopArray.append(line=line.split("  ")[1])
-
   # establish connection with DB
     client = pymongo.MongoClient(host="localhost", port=27017)
     db = client["database"]
@@ -89,45 +87,13 @@ def TraceMaker(Target, Delay):
     # insert data and close connection
     collection.insert_one(data)
     client.close()
-    
     # call the check and add function on the hop array so it can add hops to the tree
     CheckAndAdd(HopArray, Tracemap, Target)
-
     # sleep for delay timer
     time.sleep(Delay)
-
-
-
-
-
-
-
-# now check forever every 5 minutes wether the target collection has changed or not. if it has, you know a target has been removed or added
-while 1 == 1:
-  time.sleep(300)
-  newTargets = getTargets()
-  if ListOfTargets != newTargets:
-    added, removed = compareTargets(ListOfTargets, newTargets)
-    # if length of added is 1 or more, start the process for everything in added
-    if len(added) >=1:
-      for TargetItem in added.items():
-        if testTargetRegex(TargetItem[0]):
-          PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
-          PingThread.start()
-          time.sleep(random.random()/3)
-    # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
-    if len(removed) >=1:
-      for TargetItem in removed.items():
-        removedTargets[TargetItem[0]] = TargetItem[1]
-    ListOfTargets = newTargets
-    # Now also start the threads for the traceroute portion of device tracking
-    for Target in ListOfTargets:
-      TraceThread = threading.Thread(target=TraceMaker, args=(Target[0],TargetItem[1],))
-          TraceThread.start()
-          time.sleep(random.random()/3)
-
-
-
+    if Target in removedTraceTargets and removedTraceTargets[Target] == Delay:
+      keepProcessRunning = False
+      del removedTraceTargets[Target]
 
   ######################################## THINGS I NEED###############################
   - Summary of failures
