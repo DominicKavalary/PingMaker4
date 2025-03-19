@@ -19,4 +19,7 @@ collection = db["collection"]
 collection.create_index([("createdAt", 1)], expireAfterSeconds=604800)
 collection = db["users"]
 collection.insert_one(AdminUser)
+collection = db["traceroutes"]
+collection.create_index([("createdAt", 1)], expireAfterSeconds=604800)
+collection = db["tracemaps"]
 client.close()
