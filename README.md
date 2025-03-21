@@ -143,5 +143,5 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - also maybe add additional security by not just checking if the session is logged in, but also if the IP has changed or anything like that to try and further prevent session stealing
 - DO if name == main for better stuff?
 - possibly also make a main file, and make a pingmaker file and a tracemaker file and import the two into main and just have if main in the main
-- figure out how to do batch processing for less database connections or maybe data streaming with mongodb???
+- figure out how to do batch processing for less database connections, and look into data streaming with mongodb so you dont have to check every 5 minutes, you wait on target database update to do the new and remove targets stuff
 - learn docker and make a docker container for db, for scripts, and for web. autoscaling resources?
