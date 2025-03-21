@@ -141,3 +141,4 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - Just learned that the mongodb connection made by php probably dont close. they maybe persist accross sessions so maybe i just need to make one on succesfull login
 - add more duration between when new targets are spun up in that ending while loop
 - also maybe add additional security by not just checking if the session is logged in, but also if the IP has changed or anything like that to try and further prevent session stealing
+- DO if name == main for better stuff?
