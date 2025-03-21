@@ -142,3 +142,4 @@ Use these semi accurate kinda metrics to calculate your needs. If you ping every
 - add more duration between when new targets are spun up in that ending while loop
 - also maybe add additional security by not just checking if the session is logged in, but also if the IP has changed or anything like that to try and further prevent session stealing
 - DO if name == main for better stuff?
+- possibly also make a main file, and make a pingmaker file and a tracemaker file and import the two into main and just have if main in the main
