@@ -153,24 +153,34 @@ def PingMaker(Target, Delay):
 
 ### Traceroute Portion
 def AddressInNextHop(Node, Address):
+  print("Address in next hop:")
+  print("Node")
+  print(Node)
+  print("Address: "+Address)
   if Address in Node["nexthops"]:
       return True
   return False
 
 def AddHop(Node, Address):
+  print("Adding Hop")
+  print("Node to be added to")
+  print(Node)
+  print(Node)
+  print("Address: "+Address)
   Node["nexthops"][Address] = {"nexthops": {}}
 
 def CheckAndAdd(Node, HopList, Target):
   # set up a boolean to trip if soemthing is found
   FoundNewRoute = False
   CurrentNode = Node
+  print("Goign through hoplist")
   for Address in HopList:
     if AddressInNextHop(CurrentNode, Address):
       print("same node found, moving on to this node")
       CurrentNode = CurrentNode["nexthops"][Address]
     else:
       print("New hop found, adding it")
-      addHop(CurrentNode, Address)
+      AddHop(CurrentNode, Address)
       CurrentNode = CurrentNode["nexthops"][Address]
       FoundNewRoute = True
   if FoundNewRoute == True:
@@ -209,7 +219,7 @@ def TraceMaker(Target, Delay):
   # setting up array for hops to go in
     HopArray = []
     TimeOfTrace = time.strftime("%D:%H:%M:%S")
-    output = getOutput("traceroute "+Target)
+    output = getOutput("sudo traceroute -I "+Target)
     for line in output:
       if "* * *" in line and HopArray[-1] != "Fail":
         HopArray.append("Fail")
@@ -233,8 +243,11 @@ def TraceMaker(Target, Delay):
     collection.insert_one(data)
     client.close()
     # call the check and add function on the hop array so it can add hops to the tree
-    CheckAndAdd(Tracemap, HopArray, Target)
+    print("Checking and adding Map") 
+    print(Tracemap)
+    CheckAndAdd(Tracemap["Tree"], HopArray, Target)
     # sleep for delay timer
+    printTree(Tracemap["Tree"],0)
     time.sleep(Delay)
     if Target in removedTraceTargets and removedTraceTargets[Target] == Delay:
       keepProcessRunning = False
