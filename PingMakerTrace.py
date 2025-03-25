@@ -151,56 +151,40 @@ def PingMaker(Target, Delay):
     # tell the program to wait the delay period. this is because a succesfull ping will generally happen pretty quick, and errors depending on which kind can show up immediatly. so this will limit the pings/errors to about one every one or two seconds. 
     time.sleep(Delay)
 
-class TraceObject:
-  #  define the object, it has two variables, address and nexthops. nexthops will be an array that holds traceobjects. address will be the hop address
-  def __init__(self, DictionaryInsert):
-    self.__dict__.update(DictionaryInsert)
-    # if the address inputed into the object matches a next hop it has, return true
-  def HopMatches(self, Address):
-    print(self.__dict__)
-    print(self.__dict__["nexthops"])
-    if self.nexthops:
-      for hop in self.nexthops:
-        if hop.address == Address:
-          return True
-      return False
-    else:
-      return False
-      # add a traceobject to the array of next hops
-  def addHop(self, Address):
-    emptyarray = []
-    Hop = DictionaryToTraceObject({"Address": Address, "nexthops": emptyarray})
-    self.nexthops.append(Hop)
-  def getMatchedHop(self, Address):
-    for hop in self.nexthops:
-        if hop.Address == Address:
-          return hop
+### Traceroute Portion
+def AddressInNextHop(Node, Address):
+  if Address in Node["nexthops"]:
+      return True
+  return False
 
-def DictionaryToTraceObject(Dictionary):
-  return json.loads(json.dumps(Dictionary), object_hook=TraceObject)
+def AddHop(Node, Address):
+  Node["nexthops"][Address] = {"nexthops": {}}
 
-
-# checking and adding to the tree
-def CheckAndAdd(HopArray, Tracemap, Target):
+def CheckAndAdd(Node, HopList, Target):
   # set up a boolean to trip if soemthing is found
   FoundNewRoute = False
-  # the first node in the tree is the machine itself, so we can go from there
-  Node = DictionaryToTraceObject(json.loads(Tracemap["Tree"]))
-  print(json.dumps(Node.__dict__))
-  #Now you need to check to see if the next node exists and matches the next recorded hop, do it over and over again till you find new routes
-  for Address in HopArray:
-    if Node.HopMatches(Address):
-      Node = Node.getMatchedHop(Address)
+  CurrentNode = Node
+  for Address in HopList:
+    if AddressInNextHop(CurrentNode, Address):
+      print("same node found, moving on to this node")
+      CurrentNode = CurrentNode["nexthops"][Address]
     else:
-      Node.addHop(Address)
-      Node = Node.getMatchedHop(Address)
+      print("New hop found, adding it")
+      addHop(CurrentNode, Address)
+      CurrentNode = CurrentNode["nexthops"][Address]
       FoundNewRoute = True
   if FoundNewRoute == True:
     client = pymongo.MongoClient(host="localhost", port=27017)
     db = client["database"]
     collection = db["tracemaps"]
-    collection.update_one({'Target' : Target}, { '$set' : { 'Tree' : Tracemap["Tree"] }})
+    collection.update_one({'Target' : Target}, { '$set' : { 'Tree' : Node }})
     client.close()
+
+def printTree(Node, Count):
+  for Address in Node["nexthops"]:
+    print(('-' * Count) + Address)
+    printTree(Node["nexthops"][Address], Count+1)
+
 
 #TraceMaker frunction to get the route to your targets from the server
 def TraceMaker(Target, Delay):
@@ -210,10 +194,8 @@ def TraceMaker(Target, Delay):
   collection = db["tracemaps"]
   Tracemap = collection.find_one({'Target': Target})
   if not Tracemap:
-    emptyhops = []
-    roottraceobject = {"Address": "Self","nexthops":emptyhops}
+    roottraceobject = {"nexthops": {}}
     data = {
-    "Target": Target,
     "Tree": roottraceobject
     }
     print(data)
@@ -251,7 +233,7 @@ def TraceMaker(Target, Delay):
     collection.insert_one(data)
     client.close()
     # call the check and add function on the hop array so it can add hops to the tree
-    CheckAndAdd(HopArray, Tracemap, Target)
+    CheckAndAdd(Tracemap, HopArray, Target)
     # sleep for delay timer
     time.sleep(Delay)
     if Target in removedTraceTargets and removedTraceTargets[Target] == Delay:
