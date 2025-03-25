@@ -206,7 +206,8 @@ def TraceMaker(Target, Delay):
   if not Tracemap:
     roottraceobject = {"nexthops": {}}
     data = {
-    "Tree": roottraceobject
+      "Target": Target,
+      "Tree": roottraceobject
     }
     print(data)
   # insert data
