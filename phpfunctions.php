@@ -37,6 +37,33 @@ function GetRequestTable($result){
   }
   echo "</table></div>";
 }
+function GetTraceTable($result){
+  echo "<h1>Trace Table</h1>", PHP_EOL;
+  echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
+  echo "<table>", PHP_EOL;
+  echo "<tr><th>Time Of Trace</th><th>Hop Array</th></tr>";
+  //insert rows into table
+  foreach ($result as $entry) {
+    echo "<tr><td>";
+    echo json_encode($entry['TimeOfTrace']);
+    echo "</td><td>";
+    echo json_encode($entry['HopArray']);
+    echo "</td></tr>";
+    echo PHP_EOL;
+  }
+  echo "</table></div>";
+}
+function print_nested($data) {
+    if (is_array($data) || is_object($data)) {
+        foreach ($data as $key => $value) {
+            echo $key . ": ";
+            print_nested($value);  // Recursively handle nested values
+            echo "<br>";
+        }
+    } else {
+        echo $data . "<br>";
+    }
+}
 function GetUserTable($result){
   echo "<h1>User Table</h1>", PHP_EOL;
   echo "<div style='height:500px; width:600px; overflow: auto;'>", PHP_EOL;
