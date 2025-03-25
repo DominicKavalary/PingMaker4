@@ -13,7 +13,7 @@ import TraceMaker
 
 ### "Global" lists of targets removed, processes will periodically check to see if their target is in this list, if it is, they will end their processes.  ###
 removedTargets = {}
-removedTraceTargets = {}
+#removedTraceTargets = {}
 
 ### Function to compare old list of targets and new list of targets and return targets that have been added or removed. 
 def compareTargets(oldTargets, newTargets):
@@ -178,14 +178,14 @@ while 1 == 1:
           PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
           PingThread.start()
           time.sleep(random.random()/3)
-          TraceThread = threading.Thread(target=TraceMaker, args=(TargetItem[0],TargetItem[1],))
-          TraceThread.start()
-          time.sleep(random.random()/3)
+          #TraceThread = threading.Thread(target=TraceMaker, args=(TargetItem[0],TargetItem[1],))
+          #TraceThread.start()
+          #time.sleep(random.random()/3)
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
       for TargetItem in removed.items():
         removedTargets[TargetItem[0]] = TargetItem[1]
-        removedTraceTargets[TargetItem[0]] = TargetItem[1]
+        #removedTraceTargets[TargetItem[0]] = TargetItem[1]
     ListOfTargets = newTargets
 
 ##
