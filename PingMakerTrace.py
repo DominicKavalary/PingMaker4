@@ -220,14 +220,14 @@ def TraceMaker(Target, Delay):
   # setting up array for hops to go in
     HopArray = []
     TimeOfTrace = time.strftime("%D:%H:%M:%S")
-    output = getOutput("sudo traceroute -I "+Target)
+    output = getOutput("sudo traceroute -nI "+Target)
     for line in output:
       if "* * *" in line and HopArray[-1] != "Fail":
         HopArray.append("Fail")
       elif "ms" in line:
         print("Hop Array BULL -----"+line)
         print("Hop array adding"+line.split("  ")[1])
-        HopArray.append(line.split("  ")[1])
+        HopArray.append(line.split("  ")[1].replace("*", "").replace(" ",""))
 
   # establish connection with DB
     client = pymongo.MongoClient(host="localhost", port=27017)
