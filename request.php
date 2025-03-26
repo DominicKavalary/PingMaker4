@@ -102,7 +102,7 @@ if (!empty($Target)){
 	GetTraceTable($result);
 	$collection = $database->tracemaps;
 	$result = $collection->find(['Target' => $Target]);
-	print_nested($result['Tree'])
+	print_nested($result['Tree']);
   	
 }
 
