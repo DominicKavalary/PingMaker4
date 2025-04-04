@@ -97,13 +97,17 @@ if (!empty($Target)){
 	$result = $collection->find(['Target' => $Target]);
 	GetRequestTable($result);
   	echo "<button type='button' onclick='tableToCSV()'>Download CSV</button>";
+	
 	$collection = $database->traceroutes;
 	$result = $collection->find(['Target' => $Target]);
 	GetTraceTable($result);
+	
 	$collection = $database->tracemaps;
-	$result = $collection->find(['Target' => $Target]);
-	print_nested($result['Tree']);
-  	
+	$result = $collection->findOne(['Target' => $Target]);
+        echo "<h1>Trace Tree</h1>";
+        $jsonResults =  json_decode(json_encode($result["Tree"]));
+        $count = 0;
+        print_nested($jsonResults,$count);
 }
 
 ?>
