@@ -153,33 +153,21 @@ def PingMaker(Target, Delay):
 
 ### Traceroute Portion
 def AddressInNextHop(Node, Address):
-  print("Address in next hop:")
-  print("Node")
-  print(Node)
-  print("Address: "+Address)
   if Address in Node["nexthops"]:
       return True
   return False
 
 def AddHop(Node, Address):
-  print("Adding Hop")
-  print("Node to be added to")
-  print(Node)
-  print(Node)
-  print("Address: "+Address)
   Node["nexthops"][Address] = {"nexthops": {}}
 
 def CheckAndAdd(Node, HopList, Target):
   # set up a boolean to trip if soemthing is found
   FoundNewRoute = False
   CurrentNode = Node
-  print("Goign through hoplist")
   for Address in HopList:
     if AddressInNextHop(CurrentNode, Address):
-      print("same node found, moving on to this node")
       CurrentNode = CurrentNode["nexthops"][Address]
     else:
-      print("New hop found, adding it")
       AddHop(CurrentNode, Address)
       CurrentNode = CurrentNode["nexthops"][Address]
       FoundNewRoute = True
@@ -206,10 +194,9 @@ def TraceMaker(Target, Delay):
   if not Tracemap:
     roottraceobject = {"nexthops": {}}
     data = {
-      "Target": Target,
-      "Tree": roottraceobject
+    "Target": Target,
+    "Tree": roottraceobject
     }
-    print(data)
   # insert data
     collection.insert_one(data)
     Tracemap = data
@@ -222,11 +209,10 @@ def TraceMaker(Target, Delay):
     TimeOfTrace = time.strftime("%D:%H:%M:%S")
     output = getOutput("sudo traceroute -nI "+Target)
     for line in output:
-      if "* * *" in line and HopArray[-1] != "Fail":
-        HopArray.append("Fail")
+      if "* * *" in line:
+        if len(HopArray) == 0 or HopArray[-1] != "Fail":
+          HopArray.append("Fail")
       elif "ms" in line:
-        print("Hop Array BULL -----"+line)
-        print("Hop array adding"+line.split("  ")[1])
         HopArray.append(line.split("  ")[1].replace("*", "").replace(" ",""))
 
   # establish connection with DB
@@ -244,15 +230,13 @@ def TraceMaker(Target, Delay):
     collection.insert_one(data)
     client.close()
     # call the check and add function on the hop array so it can add hops to the tree
-    print("Checking and adding Map") 
-    print(Tracemap)
     CheckAndAdd(Tracemap["Tree"], HopArray, Target)
     # sleep for delay timer
-    printTree(Tracemap["Tree"],0)
     time.sleep(Delay)
     if Target in removedTraceTargets and removedTraceTargets[Target] == Delay:
       keepProcessRunning = False
       del removedTraceTargets[Target]
+
 
 ########    ----   MAIN     ----    ####### MAYBE DO THE IF MAIN THING#
 # Get list of targets
@@ -262,10 +246,8 @@ for TargetItem in ListOfTargets.items():
   PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
   PingThread.start()
   time.sleep(random.random()/3)
-  TraceThread = threading.Thread(target=TraceMaker(TargetItem[0],TargetItem[1]))
-
+  TraceThread = threading.Thread(target=TraceMaker, args=(TargetItem[0],TargetItem[1],))
   TraceThread.start()
-
   time.sleep(random.random()/3)
 # now check forever every 5 minutes wether the target collection has changed or not. if it has, you know a target has been removed or added
 while 1 == 1:
@@ -280,10 +262,8 @@ while 1 == 1:
           PingThread = threading.Thread(target=PingMaker, args=(TargetItem[0],TargetItem[1],))
           PingThread.start()
           time.sleep(random.random()/3)
-          TraceThread = threading.Thread(target=TraceMaker(TargetItem[0],TargetItem[1]))
-
+          TraceThread = threading.Thread(target=TraceMaker, args=(TargetItem[0],TargetItem[1],))
           TraceThread.start() 
-
           time.sleep(random.random()/3)
     # if length of removed is 1 or more, add the names to the removed targets list, which processes will periodically check to see fi they need to be shut down
     if len(removed) >=1:
