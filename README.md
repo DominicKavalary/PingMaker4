@@ -7,11 +7,14 @@ pingmaker3 but attempted to add database stuff and maybe web stuff
 
 ## Installaton
 ### Ubuntu Server (Tested on Noble)
-Obtain Setup File
-- wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingSetup.py
-Run the file as root/with sudo
-- python3 PingSetup.py
-
+- Obtain Setup File
+```
+wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingSetup.py
+```
+- Run the file as root/with sudo
+```
+python3 PingSetup.py
+```
 ## If youd like extra security on the webpage with php session stuff modify the php ini file options like below
 - nano /etc/php/8.3/apache2/php.ini
 ```
