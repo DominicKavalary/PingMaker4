@@ -64,7 +64,7 @@ python3 PingSetup.py
 
 
 # Todo:
-- database user created for database interactions
+- database user created for database interactions?
 - css
 - 	- onclick button effects
 - validate user input on forms, possibly keep doing it in the python script like do delay tests to see if delay is valid
@@ -72,12 +72,10 @@ python3 PingSetup.py
 - move target and user actions to the phpfucntions somehow? i dont like the idea of you submitting your own page over and over again. eh who knows though
 - Just learned that the mongodb connection made by php probably dont close. they maybe persist accross sessions so maybe i just need to make one on succesfull login
 - add more duration between when new targets are spun up in that ending while loop
-- also maybe add additional security by not just checking if the session is logged in, but also if the IP has changed or anything like that to try and further prevent session stealing
 - DO if name == main for better stuff?
-- possibly also make a main file, and make a pingmaker file and a tracemaker file and import the two into main and just have if main in the main
 - figure out how to do batch processing for less database connections, and look into data streaming with mongodb so you dont have to check every 5 minutes, you wait on target database update to do the new and remove targets stuff
 - learn docker and make a docker container for db, for scripts, and for web. autoscaling resources?
-
+- make it so you dont say yes in comoser
 
 ### Possibly i dunno yet well see, there is a potential issue of the maximum oamoutn of files open at the same time, i think these can help
 go to /etc/security/limits.conf and add:
