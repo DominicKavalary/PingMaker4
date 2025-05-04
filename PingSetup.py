@@ -18,7 +18,7 @@ subprocess.run(['systemctl start mongod'], shell=True)
 ####### MongoDB PHP Installation #######
 print("------ Installing PHP and Pecl Installing Mongodb ------")
 subprocess.run(['apt install -y php-dev'], shell=True)
-subprocess.run(['pecl install -y mongodb'], shell=True)
+subprocess.run(['printf " " | pecl install mongodb'], shell=True)
 print("Adding mongodb.so extensions to php file")
 with open("/etc/php/8.3/cli/php.ini", "a") as file:
     file.write("\nextension=mongodb.so")
