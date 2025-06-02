@@ -3,7 +3,7 @@ import subprocess
 
 ####### SSL Setup #######
 hostname = "pingmaker.local"
-subprocess.run([f'hostname {hostname}'], shell=True)
+subprocess.run([f'hostnamectl set-hostname {hostname}'], shell=True)
 subprocess.run(['a2enmod ssl'], shell=True)
 subprocess.run(['systemctl restart apache2'], shell=True)
 subprocess.run([f'openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt -subj "/C=US/ST=None/L=None/O=None/OU=None/CN={hostname}"'], shell=True)
