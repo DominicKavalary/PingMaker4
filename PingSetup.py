@@ -69,6 +69,9 @@ subprocess.run(['wget https://raw.githubusercontent.com/DominicKavalary/PingMake
 subprocess.run(['wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/logout.php -P /var/www/html/'], shell=True)
 print("Composer Require step")
 subprocess.run(['cd /var/www/html/ && composer require mongodb/mongodb'], shell=True)
+print("Downloading and running SSL config setup script")
+subprocess.run(['wget https://raw.githubusercontent.com/DominicKavalary/PingMaker4/refs/heads/main/PingSetup3.py -P /home/PingMaker'], shell=True)
+subprocess.run(['python3 /home/PingMaker/PingSetup3.py'], shell=True)
 
 ####### Done #######
 print("------ Innitial Setup Complete ------")
