@@ -5,7 +5,7 @@ pingmaker3 but attempted to add database stuff and maybe web stuff
 ### Ubuntu Server (Tested on Noble)
 - timedatectl set-timezone ENTERTIMEZONEHERE
 
-## Installaton
+## Installaton of PingMaker
 ### Ubuntu Server (Tested on Noble)
 - Obtain Setup File
 ```
@@ -29,6 +29,27 @@ python3 PingSetup.py
 -- session.cookie_secure = 1
 -- session.sid_bits_per_character = 6
 ```
+
+## Using
+- Once the server reboots you can go to its ip address https://IP (or hostname "https://pingmaker.local" if your domains dns server is setup)
+- log in with default username admin with password admin
+
+### Requests
+- there is a requests tab where you can request the data of any targets you define in the targets tab
+- each record is only stored for a week by default
+
+### Targets
+- there is a targets tab where you can add, modify, or remove targets from the database.
+- targets take about 5 minutes to populate and begin the process of tracking
+
+### Status
+- the status tab just shows the systemctl status command for the pingmaker script and the mongodb database, as well as any errors that have been caught in the pingmaker service
+
+### Users
+- there is a users tab in which you can add or modify users. It's recomended that you add a new admin account and remove the old default admin account
+
+
+
 
 # Things of note
 - Depending on the amount of targets, and how long you want to keep data for, you want you may need to increase:
