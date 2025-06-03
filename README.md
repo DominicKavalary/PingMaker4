@@ -30,32 +30,6 @@ python3 PingSetup.py
 -- session.sid_bits_per_character = 6
 ```
 
-  
-## Now to enable our server to use SSH with a self signed cert
-- sudo a2enmod ssl
-- sudo systemctl restart apache2
-- sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
-- When you are prompted to, make the "Common Name" the IP or hostname of the server, the rest isnt that important
-- sudo nano /etc/apache2/sites-available/192.168.1.1.conf
-- 	Make the site-available file the hostname or ip of your server, and paste this in after editing the IP
-```
-<VirtualHost *:443>
-   ServerName 192.168.1.1
-   DocumentRoot /var/www/html
-
-   SSLEngine on
-   SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
-   SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
-</VirtualHost>
-<VirtualHost *:80>
-	ServerName 192.168.1.1
-	Redirect / https://192.168.1.1/
-</VirtualHost>
-```
-- sudo a2ensite 192.168.1.1.conf
-- sudo systemctl reload apache2
-
-
 # Things of note
 - Depending on the amount of targets, and how long you want to keep data for, you want you may need to increase:
 -   Disk Size
